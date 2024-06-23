@@ -128,7 +128,7 @@ function Checkin(){
                                         />
                                         <label htmlFor="floatingInput">Correo Electrónico</label>
                                     </div>
-                                    <div className="form-floating" style={{ width: "100%" }}>
+                                    <div className="form-floating" style={{ width: "100%" }} >
                                         <input
                                             type="password"
                                             className="form-control"
