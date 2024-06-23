@@ -28,7 +28,7 @@ function Checkin(){
                 fecha: fecha
             }
             // Este método se encarga de comunicarse con el backend con un endpoint específico, en este caso /login
-            fetch(`http://localhost:5173/checkin`, {
+            fetch(`http://localhost:5173/login`, {
                 // Se especifica el tipo de método
                 method: "POST",
                 // Se parsea a json el cuerpo que se mandará

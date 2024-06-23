@@ -13,7 +13,7 @@ const PORT = 5000;
 // Nombre del archivo que nos dará persistencia de datos
 const FILENAME = 'Usuarios.json';
 
-/*//////////////////////----Funciones------//////////////////////////// */
+/*//////////////////////----Especificaión del Framework------//////////////////////////// */
 // Le especificamos al framework que se usara el parseo de tipo json y los cors
 app.use(bodyParser.json());
 app.use(cors());
@@ -57,6 +57,8 @@ app.get('/usuarios', (req, res) => {
     res.json(dataUser);
 });
 
+
+
 // Endpoint el cual retorna un estudiante en especifico a partir de su correo
 // /:correo es un parametro el cual no conocemos su valor, es una manera dinamica de obtener valores
 app.get('/usuarios/:correo', (req, res) => {
@@ -78,10 +80,17 @@ app.get('/usuarios/:correo', (req, res) => {
         res.json(user);
     }
 });
+
+
+
+
+
+
+
 /*/////////////////////------POST------//////////////////////////// */
 //Endpoint en el cual guardamos un nuevo usuario en la lista de usuarios,
 //la info se manda en el body en formato json
-app.post('/usuarios', (req, res) => {
+app.post('/usuarios/registro', (req, res) => {
     // Guardamos el cuerpo de la peticion
     const newUser = req.body;
     // Agregamos el estudiante a la lista
