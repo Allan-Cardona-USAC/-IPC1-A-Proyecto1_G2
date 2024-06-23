@@ -1,5 +1,5 @@
 .login-background {
-  background-image: url('../Images/fondo.jpg');
+  background-image: url('../Images/fondoLogin.jpg');
   background-size: cover;
   background-position: center;
   position: fixed;
@@ -34,4 +34,8 @@ border-top-right-radius: 0;
 .table-container {
 margin: 0 auto; /* Centra horizontalmente */
 min-width: 80%; /* Limita el ancho */
+}
+
+.text-center button{
+  margin: 25px;
 }

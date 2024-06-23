@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import './Styles/Login.css';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from "react-router-dom";
 
 function Login() {
-    // Creación de los estados de la pantalla
-    const [carnet, setCarnet] = useState('');
-    const [password, setPassword] = useState('');
-    // Creación de la cookie que se usará
+    //Creación de los estados de la pantalla
+    const [correo, setCorreo] = useState('');
+    const [contrasenia, setContrasenia] = useState('');
+    //Creación de la cookie que se usará
     const [cookies, setCookie] = useCookies(['usuario']);
     // Creación del encargado de navegar entre las distintas rutas que tiene nuestro Router
     const navigate = useNavigate();
@@ -16,12 +16,13 @@ function Login() {
     const handleSubmit = (event) => {
         // Evita la recarga de nuestro sitio web
         event.preventDefault();
+
         const data = {
-            carnet: parseInt(carnet, 10),
-            password: password
+            correo: correo,
+            contrasenia: contrasenia
         }
         // Este método se encarga de comunicarse con el backend con un endpoint específico, en este caso /login
-        fetch(`http://localhost:5000/login`, {
+        fetch(`http://localhost:5173/login`, {
             // Se especifica el tipo de método
             method: "POST",
             // Se parsea a json el cuerpo que se mandará
@@ -55,11 +56,11 @@ function Login() {
                     }
                 } else {
                     // Si las credenciales están mal se muestra el siguiente mensaje.
-                    alert(`Email and/or password incorrect.`)
+                    alert(`Correo y/o contraseña incorrecta.`)
                 }
                 // Se limpian los estados
-                setCarnet("")
-                setPassword("")
+                setCorreo("")
+                setContrasenia("")
             })
             .catch((error) => console.error(error));
     };
@@ -75,28 +76,29 @@ function Login() {
                                 <form onSubmit={handleSubmit} className='form-signin w-100 m-auto'>
                                     <div className="form-floating" style={{ width: "100%" }}>
                                         <input
-                                            type="number"
+                                            type="correoInput"
                                             className="form-control"
                                             id="floatingInput"
-                                            placeholder="202400000"
-                                            onChange={(e) => setCarnet(e.target.value)}
-                                            value={carnet}
+                                            placeholder="correoelectronico@gmail.com"
+                                            onChange={(e) => setCorreo(e.target.value)}
+                                            value={correo}
                                         />
-                                        <label htmlFor="floatingInput">Carnet</label>
+                                        <label htmlFor="floatingInput">Correo Electrónico</label>
                                     </div>
                                     <div className="form-floating" style={{ width: "100%" }}>
                                         <input
                                             type="password"
                                             className="form-control"
-                                            id="floatingPassword"
-                                            placeholder="Password"
-                                            onChange={(e) => setPassword(e.target.value)}
-                                            value={password}
+                                            id="floatingContrasenia"
+                                            placeholder="Contraseña"
+                                            onChange={(e) => setContrasenia(e.target.value)}
+                                            value={contrasenia}
                                         />
-                                        <label htmlFor="floatingPassword">Password</label>
+                                        <label htmlFor="floatingContrasenia">Contraseña</label>
                                     </div>
                                     <div className="text-center">
-                                        <button type="submit" className="btn btn-outline-primary btn-lg">Iniciar Sesión</button>
+                                        <button onClick={() => navigate("/checkin")} className="btn btn-outline-danger">Registrarse</button>
+                                        <button type="submit" className="btn btn-outline-danger">Iniciar Sesión</button>
                                     </div>
                                 </form>
                             </div>
