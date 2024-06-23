@@ -1,19 +1,39 @@
 // Dependencias a utilizar
+// fs = file system, se utiliza para leer y escribir archivos
+const fs = require('fs');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
+/*/////////////////////----Const------//////////////////////////// */
 // Creamos nuestro backend usando el framework de express
 const app = express();
 // Especificamos a usar en nuestra maquina local
 const PORT = 5000;
+// Nombre del archivo que nos dará persistencia de datos
+const FILENAME = 'Usuarios.json';
 
+/*//////////////////////----Funciones------//////////////////////////// */
 // Le especificamos al framework que se usara el parseo de tipo json y los cors
 app.use(bodyParser.json());
 app.use(cors());
 
-// Base de datos de ejemplo
+// Base de datos de Usuarios
 let dataUser = [];
+
+// Verificar y crear archivo si no existe
+if (!fs.existsSync(FILENAME)) {
+    fs.writeFileSync(FILENAME, JSON.stringify(dataUser));
+} else {
+    // Si el archivo existe, cargar los datos
+    const fileData = fs.readFileSync(FILENAME, 'utf8');
+    dataUser = JSON.parse(fileData);
+}
+// Función que ayuda a actualizar el contenido del archivo json
+function updateDataFile() {
+    //vamos a sobreescribir el archivo con la nueva informacion
+    fs.writeFileSync(FILENAME, JSON.stringify(dataUser));
+}
 
 // Estructura para recibir peticiones:
 // app = variable con la que creamos nuestro backend haciendo uso del framework express
@@ -66,7 +86,7 @@ app.post('/usuarios', (req, res) => {
     const newUser = req.body;
     // Agregamos el estudiante a la lista
     dataUser.push(newUser);
-   
+    updateDataFile();
     // Brindamos un mensaje de confirmacion
     //status 2xx significa que la peticion fue exitosa
     res.status(201).send({response:'Usuario creado correctamente'});
@@ -92,6 +112,7 @@ app.put('/usuarios/:correo', (req, res) => {
         dataUser[index].apellido = updatedUser.apellido;
         dataUser[index].contraseña = updatedUser.contraseña;
         dataUser[index].nacimiento= updatedUser.nacimiento;
+        updateDataFile();
         //status 2xx significa que la peticion fue exitosa
         res.status(202).send('Usuario actualizado correctamente');
     }
@@ -123,6 +144,8 @@ app.delete('/usuarios/:correo', (req, res) => {
         // Si se encontro el objeto, editamos sus atributos haciendo uso del indice
         // Eliminamos el objeto
         dataUser.splice(index, 1);
+        // Actualizamos el archivo
+        updateDataFile();
         //status 2xx significa que la peticion fue exitosa
         res.status(200).send({ mensaje: 'Usuario eliminado correctamente' });
         console.log(`Usuario eliminado correctamente ${correo}`)
