@@ -17,62 +17,42 @@ function Checkin(){
         // Evita la recarga de nuestro sitio web
         event.preventDefault();
 
-        const buttonId = event.target.id;
-
-            const data = {
-                nombre: nombre,
-                apellido: apellido,
-                genero: genero,
-                correo: correo,
-                contrasenia: contrasenia,
-                fecha: fecha
-            }
-            // Este método se encarga de comunicarse con el backend con un endpoint específico, en este caso /login
-            fetch(`http://localhost:5173/login`, {
-                // Se especifica el tipo de método
-                method: "POST",
-                // Se parsea a json el cuerpo que se mandará
-                body: JSON.stringify(data),
-                // Se agregan los encabezados
-                headers: {
-                    "Content-Type": "application/json",
-                },
+        const data = {
+            nombre: nombre,
+            apellido: apellido,
+            genero: genero,
+            correo: correo,
+            contrasenia: contrasenia,
+            fecha: fecha
+        }
+        // Este método se encarga de comunicarse con el backend con un endpoint específico, en este caso /login
+        fetch(`http://localhost:5000/usuarios/registro`, {
+            // Se especifica el tipo de método
+            method: "POST",
+            // Se parsea a json el cuerpo que se mandará
+            body: JSON.stringify(data),
+            // Se agregan los encabezados
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            // Se obtiene la respuesta y se pasa a json
+            .then((response) => response.json())
+            // Una vez se tiene la respuesta en json se realizará lo siguiente
+            .then((res) => {
+                // Imprimimos en consola la respuesta
+                console.log(res)
+                // Mostramos el nombre y apellido del usuario
+                alert(res.response)
+                // Se limpian los estados
+                setNombre("")
+                setApellido("")
+                setGenero("")
+                setCorreo("")
+                setContrasenia("")
+                setFecha("")
             })
-                // Se obtiene la respuesta y se pasa a json
-                .then((response) => response.json())
-                // Una vez se tiene la respuesta en json se realizará lo siguiente
-                .then((res) => {
-                    // Imprimimos en consola la respuesta
-                    console.log(res)
-                    // Validamos si las credenciales son correctas
-                    if (res.success) {
-                        // De la respuesta que mandó el backend guardamos únicamente el valor del atributo user
-                        const dataUser = res.user;
-                        // Mostramos el nombre y apellido del usuario
-                        alert(`Welcome: ${dataUser.nombre} ${dataUser.apellido}`)
-                        // Guardamos en las cookies lo que mandó el backend
-                        setCookie('usuario', dataUser);
-                        // Validamos el rol
-                        if (dataUser.role === 0) {
-                            // Navegamos a la ruta donde se encuentra la pantalla del admin
-                            navigate('/admin')
-                        } else if (dataUser.role === 1) {
-                            // Navegamos a la ruta donde se encuentra la pantalla del usuario
-                            navigate('/user')
-                        }
-                    } else {
-                        // Si las credenciales están mal se muestra el siguiente mensaje.
-                        alert(`Correo y/o contraseña incorrecta.`)
-                    }
-                    // Se limpian los estados
-                    setNombre("")
-                    setApellido("")
-                    setGenero("")
-                    setCorreo("")
-                    setContrasenia("")
-                    setFecha("")
-                })
-                .catch((error) => console.error(error));
+            .catch((error) => console.error(error));
     };
 
     return (
@@ -151,7 +131,8 @@ function Checkin(){
                                         <label htmlFor="floatingContrasenia">Fecha de nacimiento</label>
                                     </div>
                                     <div className="text-center">
-                                        <button type="button" className="btn btn-outline-danger">Guardar Datos</button>
+                                        <button type="submit" className="btn btn-outline-danger">Guardar Datos</button>
+                                        <button onClick={() => navigate("/login")} className="btn btn-outline-danger">Regresar a Inicio Sesión</button>
                                     </div>
                                 </form>
                             </div>

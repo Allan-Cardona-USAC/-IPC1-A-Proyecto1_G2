@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import './Styles/Login.css';
+import './Styles/InicioAdmin.css';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from "react-router-dom";
 
-function Login() {
+function InicioAdmin() {
     //Creación de los estados de la pantalla
     const [correo, setCorreo] = useState('');
-    const [contraseña, setContraseña] = useState('');
+    const [contrasenia, setContrasenia] = useState('');
     //Creación de la cookie que se usará
     const [cookies, setCookie] = useCookies(['usuario']);
     // Creación del encargado de navegar entre las distintas rutas que tiene nuestro Router
@@ -19,7 +19,7 @@ function Login() {
 
         const data = {
             correo: correo,
-            contraseña: contraseña
+            contrasenia: contrasenia
         }
         // Este método se encarga de comunicarse con el backend con un endpoint específico, en este caso /login
         fetch(`http://localhost:5000/login`, {
@@ -43,16 +43,16 @@ function Login() {
                     // De la respuesta que mandó el backend guardamos únicamente el valor del atributo user
                     const dataUser = res.user;
                     // Mostramos el nombre y apellido del usuario
-                    alert(`Bienvenid@: ${dataUser.nombre} ${dataUser.apellido}`)
+                    alert(`Welcome: ${dataUser.nombre} ${dataUser.apellido}`)
                     // Guardamos en las cookies lo que mandó el backend
                     setCookie('usuario', dataUser);
                     // Validamos el rol
                     if (dataUser.role === 0) {
                         // Navegamos a la ruta donde se encuentra la pantalla del admin
-                        navigate('/InicioAdmin')
+                        navigate('/admin')
                     } else if (dataUser.role === 1) {
                         // Navegamos a la ruta donde se encuentra la pantalla del usuario
-                        navigate('/InicioUsuario')
+                        navigate('/user')
                     }
                 } else {
                     // Si las credenciales están mal se muestra el siguiente mensaje.
@@ -72,7 +72,7 @@ function Login() {
                     <div className="col-md-6 mx-auto">
                         <div className="card">
                             <div className="card-body">
-                                <h2 className="card-title text-center mb-4">Inicio de Sesión</h2>
+                                <h2 className="card-title text-center mb-4">Página de Inicio del Admin</h2>
                                 <form onSubmit={handleSubmit} className='form-signin w-100 m-auto'>
                                     <div className="form-floating" style={{ width: "100%" }}>
                                         <input
@@ -89,12 +89,12 @@ function Login() {
                                         <input
                                             type="password"
                                             className="form-control"
-                                            id="floatingContraseña"
+                                            id="floatingContrasenia"
                                             placeholder="Contraseña"
-                                            onChange={(e) => setContraseña(e.target.value)}
-                                            value={contraseña}
+                                            onChange={(e) => setContrasenia(e.target.value)}
+                                            value={contrasenia}
                                         />
-                                        <label htmlFor="floatingContraseña">Contraseña</label>
+                                        <label htmlFor="floatingContrasenia">Contraseña</label>
                                     </div>
                                     <div className="text-center">
                                         <button onClick={() => navigate("/checkin")} className="btn btn-outline-danger">Registrarse</button>
@@ -110,4 +110,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default InicioAdmin;

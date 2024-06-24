@@ -3,6 +3,8 @@ import Login from '../Login';
 import Checkin from '../Checkin';
 import AgregarEditarAdmin from '../AgregarEditarAdmin';
 import EliminarAdmin from '../EliminarAdmin';
+import InicioUsuario from '../InicioUsuario';
+import InicioAdmin from '../InicioAdmin';
 //import Admin from '../Admin';
 
 
@@ -17,6 +19,8 @@ function Router(){
                 <Route path='/checkin' element={<Checkin/>} />
                 <Route path='/AgregarEditarAdmin' element={<AgregarEditarAdmin/>} />
                 <Route path='/EliminarAdmin' element={<EliminarAdmin/>} />
+                <Route path='/InicioUsuario' element={<InicioUsuario/>} />
+                <Route path='/InicioAdmin' element={<InicioAdmin/>} />
                 {/*<Route path='/admin' element={<Admin/>} />*/}
             </Routes>
         </BrowserRouter>

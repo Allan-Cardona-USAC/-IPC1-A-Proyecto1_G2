@@ -8,11 +8,11 @@
         "nacimiento": "27/08/2000"
     },
     {
-        "nombre": "Emanuel",
-        "apellido": "Yatt",
+        "nombre": "Raúl",
+        "apellido": "Yat",
         "genero": "Masculino",
-        "correo": "raulyat@gmail.com",
-        "contraseña": "123456",
-        "nacimiento": "6/09/2001"
+        "correo": "raul@gmail.com",
+        "contraseña": "Hola1234",
+        "nacimiento": "11/02/2005"
     }
 ]

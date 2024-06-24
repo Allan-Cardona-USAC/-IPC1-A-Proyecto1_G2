@@ -100,6 +100,39 @@ app.post('/usuarios/registro', (req, res) => {
     //status 2xx significa que la peticion fue exitosa
     res.status(201).send({response:'Usuario creado correctamente'});
 });
+
+
+
+// Endpoint en el cual recibimos los datos del usuario que se quiere loggear, se valida si el usuario existe o no
+// en el array de usuarios y también se valida que su password sea correcto
+app.post('/login', (req, res) => {
+    const data = req.body;
+    console.log(data)
+    const usuarios = dataUser.find(usuarios => {
+        console.log(usuarios.correo)
+        console.log(usuarios.contraseña)
+        if (usuarios.correo === data.correo && usuarios.contraseña === data.contraseña) {
+            return usuarios
+        }
+    });
+    if (!usuarios) {
+        const response = {
+            success: false,
+            user: null
+        }
+        res.status(404).send(response);
+    } else {
+        const response = {
+            success: true,
+            user: usuarios
+        }
+        res.json(response);
+    }
+});
+
+
+
+
 /*/////////////////////------PUT------//////////////////////////// */
 // Endpoint con el cual actualizaremos los atributos de un objeto, menos su correo
 app.put('/usuarios/:correo', (req, res) => {
