@@ -179,6 +179,7 @@ function AgregarPeliculasAdmin(){
                                     <div className="text-center">
                                         <button type="button" className="btn btn-outline-danger">Guardar Pelicula</button>
                                         <button type="button" className="btn btn-outline-danger">Editar Pelicula</button>
+                                        <button onClick={() => navigate("/InicioAdmin")} className="btn btn-outline-danger">Regresar a Inicio</button>
                                     </div>
                                 </form>
                             </div>

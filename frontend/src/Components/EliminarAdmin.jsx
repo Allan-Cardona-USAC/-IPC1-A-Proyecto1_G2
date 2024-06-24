@@ -86,6 +86,7 @@ function EliminarAdmin() {
                                     <div className="text-center">
                                         <button onClick={() => navigate("/checkin")} className="btn btn-outline-danger">Eliminar Usuario</button>
                                         <button type="submit" className="btn btn-outline-danger">Eliminar Película</button>
+                                        <button onClick={() => navigate("/InicioAdmin")} className="btn btn-outline-danger">Regresar a Inicio</button>
                                     </div>
                                 </form>
                             </div>

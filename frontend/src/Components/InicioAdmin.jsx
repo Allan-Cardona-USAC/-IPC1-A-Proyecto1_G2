@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import './Styles/InicioAdmin.css';
+import agregareditar from './Images/agregareditar.png'
+import eliminar from './Images/eliminar.jpg'
 import { useCookies } from 'react-cookie';
 import { useNavigate } from "react-router-dom";
 
@@ -68,42 +70,28 @@ function InicioAdmin() {
     return (
         <div className="login-background">
             <div className="container-fluid h-100">
-                <div className="row align-items-center h-100">
-                    <div className="col-md-6 mx-auto">
+                <div className="row row-cols-1 row-cols-md-3 g-3">
+                    <div class="col">
                         <div className="card">
-                            <div className="card-body">
-                                <h2 className="card-title text-center mb-4">Página de Inicio del Admin</h2>
-                                <form onSubmit={handleSubmit} className='form-signin w-100 m-auto'>
-                                    <div className="form-floating" style={{ width: "100%" }}>
-                                        <input
-                                            type="correoInput"
-                                            className="form-control"
-                                            id="floatingInput"
-                                            placeholder="correoelectronico@gmail.com"
-                                            onChange={(e) => setCorreo(e.target.value)}
-                                            value={correo}
-                                        />
-                                        <label htmlFor="floatingInput">Correo Electrónico</label>
-                                    </div>
-                                    <div className="form-floating" style={{ width: "100%" }}>
-                                        <input
-                                            type="password"
-                                            className="form-control"
-                                            id="floatingContrasenia"
-                                            placeholder="Contraseña"
-                                            onChange={(e) => setContrasenia(e.target.value)}
-                                            value={contrasenia}
-                                        />
-                                        <label htmlFor="floatingContrasenia">Contraseña</label>
-                                    </div>
-                                    <div className="text-center">
-                                        <button onClick={() => navigate("/checkin")} className="btn btn-outline-danger">Registrarse</button>
-                                        <button type="submit" className="btn btn-outline-danger">Iniciar Sesión</button>
-                                    </div>
-                                </form>
-                            </div>
+                            <img src={agregareditar} className="card-img-top" alt="..." />
+                                <div className="card-body">
+                                    <h4 className="card-title">Agregar o Editar una Película</h4>
+                                    <p className="card-text">Aquí es dónde se pueden agregar o editar una película</p>
+                                    <button onClick={() => navigate("/AgregarEditarAdmin")} className="btn btn-outline-danger">Ir a la Página</button>
+                                </div>
                         </div>
                     </div>
+                    <div class="col">
+                        <div className="card">
+                            <img src={eliminar} className="card-img-top" alt="..." />
+                                <div className="card-body">
+                                    <h4 className="card-title">Eliminar un Usuario o Película</h4>
+                                    <p className="card-text">Aquí es dónde se puede eliminar un usuario o una película</p>
+                                    <button onClick={() => navigate("/EliminarAdmin")} className="btn btn-outline-danger">Ir a la Página</button>
+                                </div>
+                        </div>
+                    </div>
+                    <div/>
                 </div>
             </div>
         </div>
