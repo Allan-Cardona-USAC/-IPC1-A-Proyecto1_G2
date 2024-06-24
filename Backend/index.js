@@ -21,6 +21,9 @@ app.use(cors());
 // Base de datos de Usuarios
 let dataUser = [];
 
+// Base de datos de Usuarios
+let dataMovie = [];
+
 // Verificar y crear archivo si no existe
 if (!fs.existsSync(FILENAME)) {
     fs.writeFileSync(FILENAME, JSON.stringify(dataUser));
@@ -57,6 +60,14 @@ app.get('/usuarios', (req, res) => {
     res.json(dataUser);
 });
 
+//get para peliculas
+app.get('/usuarios/peliculas', (req, res) => {
+    let ver = {
+        Mensaje: "Ruta para consultar las peliculas",
+        urlPeliculas: "http://localhost:5000/usuarios/peliculas"
+    };
+    res.json(ver);
+});
 
 
 // Endpoint el cual retorna un estudiante en especifico a partir de su correo
@@ -82,11 +93,6 @@ app.get('/usuarios/:correo', (req, res) => {
 });
 
 
-
-
-
-
-
 /*/////////////////////------POST------//////////////////////////// */
 //Endpoint en el cual guardamos un nuevo usuario en la lista de usuarios,
 //la info se manda en el body en formato json
@@ -102,20 +108,19 @@ app.post('/usuarios/registro', (req, res) => {
 });
 
 
-
 // Endpoint en el cual recibimos los datos del usuario que se quiere loggear, se valida si el usuario existe o no
 // en el array de usuarios y también se valida que su password sea correcto
 app.post('/login', (req, res) => {
     const data = req.body;
     console.log(data)
-    const usuarios = dataUser.find(usuarios => {
-        console.log(usuarios.correo)
-        console.log(usuarios.contraseña)
-        if (usuarios.correo === data.correo && usuarios.contraseña === data.contraseña) {
-            return usuarios
+    const user = dataUser.find(user => {
+        console.log(user.correo)
+        console.log(user.contraseña)
+        if (user.correo === data.correo && user.contraseña === data.contraseña) {
+            return user
         }
     });
-    if (!usuarios) {
+    if (!user) {
         const response = {
             success: false,
             user: null
@@ -124,13 +129,11 @@ app.post('/login', (req, res) => {
     } else {
         const response = {
             success: true,
-            user: usuarios
+            user: user
         }
         res.json(response);
     }
 });
-
-
 
 
 /*/////////////////////------PUT------//////////////////////////// */
