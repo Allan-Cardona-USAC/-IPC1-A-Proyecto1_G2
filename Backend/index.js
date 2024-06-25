@@ -5,7 +5,10 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-/*/////////////////////----Const------//////////////////////////// */
+/*-----------------------------------------------------------------*/
+/*/////////////////////----Variables------/////////////////////////*/
+/*-----------------------------------------------------------------*/
+
 // Creamos nuestro backend usando el framework de express
 const app = express();
 // Especificamos a usar en nuestra maquina local
@@ -19,10 +22,17 @@ const FILENAMECOMMENT = 'Comentarios.json';
 //Nombre del archivo que nos dará persistencia de datos
 const FILENAMERECORD= 'Historial.json';
 
-/*//////////////////////----Especificaión del Framework------//////////////////////////// */
+/*-----------------------------------------------------------------*/
+/*///////////----Especificaión del Framework------//////////////// */
+/*-----------------------------------------------------------------*/
+
 // Le especificamos al framework que se usara el parseo de tipo json y los cors
 app.use(bodyParser.json());
 app.use(cors());
+
+/*-----------------------------------------------------------------*/
+/*////////////////////----Base de Datos------///////////////////// */
+/*-----------------------------------------------------------------*/
 
 // Base de datos de Usuarios
 let dataUser = [];
@@ -32,6 +42,10 @@ let dataMovie = [];
 
 // Base de datos de Reseñas
 let dataComment = [];
+
+/*-----------------------------------------------------------------*/
+/*/////////////////////---ARCHIVO-FILENAME---///////////////////// */
+/*-----------------------------------------------------------------*/
 
 // Verificar y crear archivo si no existe
 if (!fs.existsSync(FILENAME)) {
@@ -49,7 +63,9 @@ function updateDataFile() {
     //vamos a sobreescribir el archivo con la nueva informacion
     fs.writeFileSync(FILENAME, JSON.stringify(dataUser));
 }
-
+/*-----------------------------------------------------------------*/
+/*//////////////////////--ARCHIVO-FILENAMEMOVIE--///////////////// */
+/*-----------------------------------------------------------------*/
 
 // Verificar y crear archivo si no existe
 if (!fs.existsSync(FILENAMEMOVIE)) {
@@ -67,17 +83,38 @@ function updateDataFileM() {
     //vamos a sobreescribir el archivo con la nueva informacion
     fs.writeFileSync(FILENAMEMOVIE, JSON.stringify(dataMovie));
 }
+/*-----------------------------------------------------------------*/
+/*/////////////////////--ARCHIVO-FILENAMECOMMENT--//////////////// */
+/*-----------------------------------------------------------------*/
 
+// Verificar y crear archivo si no existe
+if (!fs.existsSync(FILENAMECOMMENT)) {
+    // Si el archivo no existe, crearlo con un array vacio
+    //usando la funcion writeFileSync
+    fs.writeFileSync(FILENAMECOMMENT, JSON.stringify(dataComment));
+} else {
+    // Si el archivo existe, cargar los datos
+    const fileDataC = fs.readFileSync(FILENAMECOMMENT, 'utf8');
+    dataComment = JSON.parse(fileDataC);
 
+}
+// Función que ayuda a actualizar el contenido del archivo json
+function updateDataFileC() {
+    //vamos a sobreescribir el archivo con la nueva informacion
+    fs.writeFileSync(FILENAMECOMMENT, JSON.stringify(dataComment));
+}
 
-// Estructura para recibir peticiones:
-// app = variable con la que creamos nuestro backend haciendo uso del framework express
-// .Tipo de metodo = GET, POST, PUT, DELETE
-// "/url" = Endpoint que se quiere consultar
-// req = recibe los parametros que vienen por parte del cliente
-// res = se encarga de responder al cliente
+/* Estructura para recibir peticiones:
+ app = variable con la que creamos nuestro backend haciendo uso del framework express
+ .Tipo de metodo = GET, POST, PUT, DELETE
+ "/url" = Endpoint que se quiere consultar
+ req = recibe los parametros que vienen por parte del cliente
+ res = se encarga de responder al cliente */
 
-/*/////////////////////----GET------//////////////////////////// */
+/*-----------------------------------------------------------------*/
+/*////////////////////////----GET------/////////////////////////// */
+/*-----------------------------------------------------------------*/
+
 // Creando un endpoint sencillo que retorne un mensaje
 app.get('/', (req, res) => {
     let saludo = {
@@ -91,7 +128,9 @@ app.get('/', (req, res) => {
 app.get('/usuarios', (req, res) => {
     res.json(dataUser);
 });
+
 /*--------------------------------------------------------------------*/
+
 //get para peliculas
 app.get('/usuarios/peliculas', (req, res) => {
     let ver = {
@@ -104,6 +143,7 @@ app.get('/usuarios/peliculas', (req, res) => {
 app.get('/usuarios/peliculas/catalogo', (req, res) => {
     res.json(dataMovie);
 });
+
 /*--------------------------------------------------------------------*/
 
 // Endpoint el cual retorna un estudiante en especifico a partir de su correo
@@ -128,8 +168,9 @@ app.get('/usuarios/:correo', (req, res) => {
     }
 });
 
-
-/*/////////////////////------POST------//////////////////////////// */
+/*--------------------------------------------------------------------*/
+/*///////////////////////------POST------//////////////////////////// */
+/*--------------------------------------------------------------------*/
 
 //Endpoint en el cual guardamos un nuevo usuario en la lista de usuarios,
 //la info se manda en el body en formato json
@@ -143,7 +184,9 @@ app.post('/usuarios/registro', (req, res) => {
     //status 2xx significa que la peticion fue exitosa
     res.status(201).send({response:'Usuario creado correctamente'});
 });
+
 /*--------------------------------------------------------------------*/
+
 //Endpoint en el cual guardamos una nueva pelicula en la lista de Peliculas,
 //la info se manda en el body en formato json
 app.post('/admin/registro/pelicula', (req, res) => {
@@ -156,6 +199,7 @@ app.post('/admin/registro/pelicula', (req, res) => {
     //status 2xx significa que la peticion fue exitosa
     res.status(201).send({response:'Pelicula Nueva creado correctamente'});
 });
+
 /*--------------------------------------------------------------------*/
 
 // Endpoint en el cual recibimos los datos del usuario que se quiere loggear, se valida si el usuario existe o no
@@ -185,8 +229,9 @@ app.post('/login', (req, res) => {
     }
 });
 
-
-/*/////////////////////------PUT------//////////////////////////// */
+/*--------------------------------------------------------------------*/
+/*////////////////////////------PUT------//////////////////////////// */
+/*--------------------------------------------------------------------*/
 
 // Endpoint con el cual actualizaremos los atributos de un objeto, menos su correo
 app.put('/usuarios/:correo', (req, res) => {
@@ -213,7 +258,9 @@ app.put('/usuarios/:correo', (req, res) => {
         res.status(202).send('Usuario actualizado correctamente');
     }
 });
+
 /*--------------------------------------------------------------------*/
+
 // Endpoint con el cual actualizaremos los atributos de un objeto, 
 // en este caso la pelicula sera Modificada completamente
 app.put('/admin/pelicula/:titulo', (req, res) => {
@@ -246,8 +293,10 @@ app.put('/admin/pelicula/:titulo', (req, res) => {
     }
 });
 
-
+/*--------------------------------------------------------------------*/
 /*/////////////////////------DELETE------//////////////////////////// */
+/*--------------------------------------------------------------------*/
+
 // Endpoint con el cual eliminaremos un objeto de la lista de usuarios especifico
 app.delete('/usuarios/:correo', (req, res) => {
     // Obtenemosel correo del objeto que se va a actualizar
@@ -283,6 +332,7 @@ app.delete('/usuarios/:correo', (req, res) => {
 });
 
 /*--------------------------------------------------------------------*/
+
 // Endpoint con el cual eliminaremos un objeto de la lista de pelicula especifico
 app.delete('/admin/pelicula/:titulo', (req, res) => {
     // Obtenemosel correo del objeto que se va a actualizar
