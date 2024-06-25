@@ -15,12 +15,6 @@ function AgregarPeliculasAdmin(){
 
     const navigate = useNavigate();
 
-    const handleSubmit = (event) => {
-        // Evita la recarga de nuestro sitio web
-        event.preventDefault();
-
-        const buttonId = event.target.id;
-
             const data = {
                 titulo: titulo,
                 sinopsis: sinopsis,
@@ -31,54 +25,76 @@ function AgregarPeliculasAdmin(){
                 genero: genero,
                 imagen: imagen                
             }
-            // Este método se encarga de comunicarse con el backend con un endpoint específico, en este caso /login
-            fetch(`http://localhost:5173/checkin`, {
-                // Se especifica el tipo de método
-                method: "POST",
-                // Se parsea a json el cuerpo que se mandará
-                body: JSON.stringify(data),
-                // Se agregan los encabezados
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            })
-                // Se obtiene la respuesta y se pasa a json
-                .then((response) => response.json())
-                // Una vez se tiene la respuesta en json se realizará lo siguiente
-                .then((res) => {
+
+            const handleGuardar = (event) => {
+                event.preventDefault();
+                
+                // Este método se encarga de comunicarse con el backend con un endpoint específico, en este caso /login
+                fetch(`http://localhost:5173/admin/registro/pelicula`, {
+                    // Se especifica el tipo de método
+                    method: "POST",
+                    // Se parsea a json el cuerpo que se mandará
+                    body: JSON.stringify(data),
+                    // Se agregan los encabezados
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
+                    // Se obtiene la respuesta y se pasa a json
+                    .then((response) => response.json())
+                    // Una vez se tiene la respuesta en json se realizará lo siguiente
+                    .then((res) => {
                     // Imprimimos en consola la respuesta
                     console.log(res)
-                    // Validamos si las credenciales son correctas
-                    if (res.success) {
-                        // De la respuesta que mandó el backend guardamos únicamente el valor del atributo user
-                        const dataUser = res.user;
-                        // Mostramos el nombre y apellido del usuario
-                        alert(`Welcome: ${dataUser.nombre} ${dataUser.apellido}`)
-                        // Guardamos en las cookies lo que mandó el backend
-                        setCookie('usuario', dataUser);
-                        // Validamos el rol
-                        if (dataUser.role === 0) {
-                            // Navegamos a la ruta donde se encuentra la pantalla del admin
-                            navigate('/admin')
-                        } else if (dataUser.role === 1) {
-                            // Navegamos a la ruta donde se encuentra la pantalla del usuario
-                            navigate('/user')
-                        }
-                    } else {
-                        // Si las credenciales están mal se muestra el siguiente mensaje.
-                        alert(`Correo y/o contraseña incorrecta.`)
-                    }
+                    // Mostramos el nombre y apellido del usuario
+                    alert(res.response)
                     // Se limpian los estados
-                    setNombre("")
-                    setApellido("")
+                    setTitulo("")
+                    setSinopsis("")
+                    setPrecio("")
+                    setDirector("")
+                    setEstreno("")
+                    setDuracion("")
                     setGenero("")
-                    setCorreo("")
-                    setContrasenia("")
-                    setFecha("")
+                    setImagen("")
                 })
                 .catch((error) => console.error(error));
-    };
+            };
 
+            const handleActualizar = (event) => {
+                event.preventDefault();
+                
+                fetch(`http://localhost:5173/admin/pelicula/:titulo`, {
+                    // Se especifica el tipo de método
+                    method: "PUT",
+                    // Se parsea a json el cuerpo que se mandará
+                    body: JSON.stringify(data),
+                    // Se agregan los encabezados
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                })
+                    // Se obtiene la respuesta y se pasa a json
+                    .then((response) => response.json())
+                    // Una vez se tiene la respuesta en json se realizará lo siguiente
+                    .then((res) => {
+                    // Imprimimos en consola la respuesta
+                    console.log(res)
+                    // Mostramos el nombre y apellido del usuario
+                    alert(res.response)
+                    // Se limpian los estados
+                    setTitulo("")
+                    setSinopsis("")
+                    setPrecio("")
+                    setDirector("")
+                    setEstreno("")
+                    setDuracion("")
+                    setGenero("")
+                    setImagen("")
+                })
+                .catch((error) => console.error(error));
+            };
+    
     return (
         <div className="login-background">
             <div className="container-fluid h-100">
@@ -87,7 +103,7 @@ function AgregarPeliculasAdmin(){
                         <div className="card">
                             <div className="card-body">
                                 <h2 className="card-title text-center mb-4">Agregar Películas</h2>
-                                <form onSubmit={handleSubmit} className='form-signin w-100 m-auto'>
+                                
                                     <div className="form-floating" style={{ width: "100%" }}>
                                         <input
                                             type="tituloInput"
@@ -115,11 +131,11 @@ function AgregarPeliculasAdmin(){
                                             type="precioInput"
                                             className="form-control"
                                             id="floatingInput"
-                                            placeholder="150.00"
+                                            placeholder="Q150.00"
                                             onChange={(e) => setPrecio(e.target.value)}
                                             value={precio}
                                         />
-                                        <label htmlFor="floatingInput">Precio de la Película en Quetzales</label>
+                                        <label htmlFor="floatingInput">Precio de la Película</label>
                                     </div>
                                     <div className="form-floating" style={{ width: "100%" }}>
                                         <input
@@ -130,7 +146,7 @@ function AgregarPeliculasAdmin(){
                                             onChange={(e) => setDirector(e.target.value)}
                                             value={director}
                                         />
-                                        <label htmlFor="floatingInput">Precio de la Película</label>
+                                        <label htmlFor="floatingInput">Director de la Película</label>
                                     </div>
                                     <div className="form-floating" style={{ width: "100%" }}>
                                         <input
@@ -148,11 +164,11 @@ function AgregarPeliculasAdmin(){
                                             type="duracionInput"
                                             className="form-control"
                                             id="floatingInput"
-                                            placeholder="140"
+                                            placeholder="2h y 20 min"
                                             onChange={(e) => setDuracion(e.target.value)}
                                             value={duracion}
                                         />
-                                        <label htmlFor="floatingInput">Duración de la Película en Minutos</label>
+                                        <label htmlFor="floatingInput">Duración de la Película</label>
                                     </div>
                                     <div className="form-floating" style={{ width: "100%" }}>
                                         <input
@@ -177,11 +193,11 @@ function AgregarPeliculasAdmin(){
                                         <label htmlFor="floatingContrasenia">Imagen o Póster de la Pelicula</label>
                                     </div>
                                     <div className="text-center">
-                                        <button type="button" className="btn btn-outline-danger">Guardar Pelicula</button>
-                                        <button type="button" className="btn btn-outline-danger">Editar Pelicula</button>
+                                        <button onClick={handleGuardar} id="botonGuardar" className="btn btn-outline-danger">Guardar Pelicula</button>
+                                        <button onClick={handleActualizar} id="botonActualizar" className="btn btn-outline-danger">Editar Pelicula</button>
                                         <button onClick={() => navigate("/InicioAdmin")} className="btn btn-outline-danger">Regresar a Inicio</button>
                                     </div>
-                                </form>
+                               
                             </div>
                         </div>
                     </div>

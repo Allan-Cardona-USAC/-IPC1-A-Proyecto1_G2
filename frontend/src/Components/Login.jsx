@@ -43,9 +43,15 @@ function Login() {
                     // De la respuesta que mandó el backend guardamos únicamente el valor del atributo user
                     const dataUser = res.user;
                     // Mostramos el nombre y apellido del usuario
-                    alert(`Bienvenid@: ${dataUser.nombre} ${dataUser.apellido}`)
+                    Swal.fire({
+                        title: 'Login',
+                        text: 'Welcome ${dataUser.nombre} ${dataUser.apellido}',
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    })
                     // Guardamos en las cookies lo que mandó el backend
                     setCookie('usuario', dataUser);
+                    console.log(dataUser.role)
                     // Validamos el rol
                     if (dataUser.role === 0) {
                         // Navegamos a la ruta donde se encuentra la pantalla del admin
@@ -56,7 +62,12 @@ function Login() {
                     }
                 } else {
                     // Si las credenciales están mal se muestra el siguiente mensaje.
-                    alert(`Correo y/o contraseña incorrecta.`)
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Correo y/o contraseña incorrecta',
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                    })
                 }
                 // Se limpian los estados
                 setCorreo("")

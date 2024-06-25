@@ -66,7 +66,7 @@ function Checkin(){
                                 <form onSubmit={handleSubmit} className='form-signin w-100 m-auto'>
                                     <div className="form-floating" style={{ width: "100%" }}>
                                         <input
-                                            type="nombreInput"
+                                            type="floatingInput"
                                             className="form-control"
                                             id="floatingInput"
                                             placeholder="Gabriel Armando"
@@ -77,7 +77,7 @@ function Checkin(){
                                     </div>
                                     <div className="form-floating" style={{ width: "100%" }}>
                                         <input
-                                            type="apellidoInput"
+                                            type="floatingInput"
                                             className="form-control"
                                             id="floatingInput"
                                             placeholder="Mora Quintero"
@@ -88,7 +88,7 @@ function Checkin(){
                                     </div>
                                     <div className="form-floating" style={{ width: "100%" }}>
                                         <input
-                                            type="generoInput"
+                                            type="floatingInput"
                                             className="form-control"
                                             id="floatingInput"
                                             placeholder="Hombre"
@@ -99,7 +99,7 @@ function Checkin(){
                                     </div>
                                     <div className="form-floating" style={{ width: "100%" }}>
                                         <input
-                                            type="correoInput"
+                                            type="floatingInput"
                                             className="form-control"
                                             id="floatingInput"
                                             placeholder="correoelectronico@gmail.com"
@@ -121,7 +121,7 @@ function Checkin(){
                                     </div>
                                     <div className="form-floating" style={{ width: "100%" }}>
                                         <input
-                                            type="fechaInput"
+                                            type="floatingInput"
                                             className="form-control"
                                             id="floatingInput"
                                             placeholder="18/04/1996"
