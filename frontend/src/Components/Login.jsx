@@ -43,7 +43,6 @@ function Login() {
                     // De la respuesta que mandó el backend guardamos únicamente el valor del atributo user
                     const dataUser = res.user;
                     // Mostramos el nombre y apellido del usuario
-<<<<<<< Updated upstream
                     /*Swal.fire({
                          title: 'Login',
                          text: 'Welcome ${dataUser.nombre} ${dataUser.apellido}',
@@ -58,31 +57,17 @@ function Login() {
                         // Navegamos a la ruta donde se encuentra la pantalla del admin
                         navigate('/InicioAdmin')
                     } else if (dataUser.correo != "kpz_m@gmail.com" && dataUser.contraseña != "654321") {
-=======
-                    alert(`Welcome: ${dataUser.nombre} ${dataUser.apellido}`)
-                    // Guardamos en las cookies lo que mandó el backend
-                    setCookie('usuario', dataUser);
-                    // Validamos el credencial del usuario
-                    if (dataUser.correo === "admin@usac.com" && dataUser.contraseña === "admin") {
-                        // Navegamos a la ruta donde se encuentra la pantalla del admin
-                        navigate('/InicioAdmin')
-                    } else if (dataUser.correo != "admin@usac.com" && dataUser.contraseña != "admin") {
->>>>>>> Stashed changes
                         // Navegamos a la ruta donde se encuentra la pantalla del usuario
                         navigate('/InicioUsuario')
                     }
                 } else {
                     // Si las credenciales están mal se muestra el siguiente mensaje.
-<<<<<<< Updated upstream
                     /*Swal.fire({
                          title: 'Error',
                          text: 'Correo y/o contraseña incorrecta',
                          icon: 'error',
                          confirmButtonText: 'Ok'
                      })*/
-=======
-                    alert(`Email and/or password incorrect.`);
->>>>>>> Stashed changes
                 }
                 // Se limpian los estados
                 setCorreo("")
