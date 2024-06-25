@@ -43,35 +43,35 @@ function Login() {
                     // De la respuesta que mandó el backend guardamos únicamente el valor del atributo user
                     const dataUser = res.user;
                     // Mostramos el nombre y apellido del usuario
-                    Swal.fire({
-                        title: 'Login',
-                        text: 'Welcome ${dataUser.nombre} ${dataUser.apellido}',
-                        icon: 'success',
-                        confirmButtonText: 'Ok'
-                    })
+                    /*Swal.fire({
+                         title: 'Login',
+                         text: 'Welcome ${dataUser.nombre} ${dataUser.apellido}',
+                         icon: 'success',
+                         confirmButtonText: 'Ok'
+                     })*/
                     // Guardamos en las cookies lo que mandó el backend
                     setCookie('usuario', dataUser);
                     console.log(dataUser.role)
                     // Validamos el rol
-                    if (dataUser.role === 0) {
+                    if (dataUser.correo === "kpz_m@gmail.com" && dataUser.contraseña === "654321") {
                         // Navegamos a la ruta donde se encuentra la pantalla del admin
                         navigate('/InicioAdmin')
-                    } else if (dataUser.role === 1) {
+                    } else if (dataUser.correo != "kpz_m@gmail.com" && dataUser.contraseña != "654321") {
                         // Navegamos a la ruta donde se encuentra la pantalla del usuario
                         navigate('/InicioUsuario')
                     }
                 } else {
                     // Si las credenciales están mal se muestra el siguiente mensaje.
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'Correo y/o contraseña incorrecta',
-                        icon: 'error',
-                        confirmButtonText: 'Ok'
-                    })
+                    /*Swal.fire({
+                         title: 'Error',
+                         text: 'Correo y/o contraseña incorrecta',
+                         icon: 'error',
+                         confirmButtonText: 'Ok'
+                     })*/
                 }
                 // Se limpian los estados
                 setCorreo("")
-                setContrasenia("")
+                setContraseña("")
             })
             .catch((error) => console.error(error));
     };

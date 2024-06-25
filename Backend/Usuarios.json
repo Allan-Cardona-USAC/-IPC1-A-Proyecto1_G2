@@ -1,1 +1,26 @@
-[{"nombre":"Maria","apellido":"Saban","genero":"F","correo":"kpz_m@gmail.com","contraseña":"654321","nacimiento":"27/08/2000"},{"nombre":"Fernanda","apellido":"Saban","genero":"Femenina","correo":"fer2024@gmail.com","contrasenia":"123456","fecha":"27/08/2000"},{"nombre":"Raul","apellido":"Yat","genero":"Masculino","correo":"raulyat@gmail.com","contraseña":"654321","nacimiento":"05/08/2000"}]
+[
+    {
+        "nombre": "Maria",
+        "apellido": "Saban",
+        "genero": "F",
+        "correo": "kpz_m@gmail.com",
+        "contraseña": "654321",
+        "nacimiento": "27/08/2000"
+    },
+    {
+        "nombre": "Fernanda",
+        "apellido": "Saban",
+        "genero": "Femenina",
+        "correo": "fer2024@gmail.com",
+        "contrasenia": "123456",
+        "fecha": "27/08/2000"
+    },
+    {
+        "nombre": "Raul",
+        "apellido": "Yat",
+        "genero": "Masculino",
+        "correo": "raulyat@gmail.com",
+        "contraseña": "654321",
+        "nacimiento": "05/08/2000"
+    }
+]

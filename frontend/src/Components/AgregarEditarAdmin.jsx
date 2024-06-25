@@ -30,7 +30,7 @@ function AgregarPeliculasAdmin(){
                 event.preventDefault();
                 
                 // Este método se encarga de comunicarse con el backend con un endpoint específico, en este caso /login
-                fetch(`http://localhost:5173/admin/registro/pelicula`, {
+                fetch(`http://localhost:5000/admin/registro/pelicula`, {
                     // Se especifica el tipo de método
                     method: "POST",
                     // Se parsea a json el cuerpo que se mandará
@@ -64,7 +64,7 @@ function AgregarPeliculasAdmin(){
             const handleActualizar = (event) => {
                 event.preventDefault();
                 
-                fetch(`http://localhost:5173/admin/pelicula/:titulo`, {
+                fetch(`http://localhost:5000/admin/pelicula/:titulo`, {
                     // Se especifica el tipo de método
                     method: "PUT",
                     // Se parsea a json el cuerpo que se mandará

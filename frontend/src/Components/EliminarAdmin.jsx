@@ -23,7 +23,7 @@ function EliminarAdmin() {
             event.preventDefault();
             
             // Este método se encarga de comunicarse con el backend con un endpoint específico, en este caso /login
-            fetch(`http://localhost:5173/usuarios/:correo`, {
+            fetch(`http://localhost:5000/usuarios/:correo`, {
                 // Se especifica el tipo de método
                 method: "DELETE",
                 // Se parsea a json el cuerpo que se mandará
@@ -51,7 +51,7 @@ function EliminarAdmin() {
             event.preventDefault();
             
             // Este método se encarga de comunicarse con el backend con un endpoint específico, en este caso /login
-            fetch(`http://localhost:5173/pelicula/:titulo`, {
+            fetch(`http://localhost:5000/pelicula/:titulo`, {
                 // Se especifica el tipo de método
                 method: "DELETE",
                 // Se parsea a json el cuerpo que se mandará
