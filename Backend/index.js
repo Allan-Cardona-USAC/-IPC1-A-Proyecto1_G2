@@ -172,6 +172,7 @@ app.get('/usuarios/:correo', (req, res) => {
 /*///////////////////////------POST------//////////////////////////// */
 /*--------------------------------------------------------------------*/
 
+
 //Endpoint en el cual guardamos un nuevo usuario en la lista de usuarios,
 //la info se manda en el body en formato json
 app.post('/usuarios/registro', (req, res) => {
@@ -184,24 +185,6 @@ app.post('/usuarios/registro', (req, res) => {
     //status 2xx significa que la peticion fue exitosa
     res.status(201).send({response:'Usuario creado correctamente'});
 });
-
-/*--------------------------------------------------------------------*/
-
-//Endpoint en el cual guardamos una nueva pelicula en la lista de Peliculas,
-//la info se manda en el body en formato json
-app.post('/admin/registro/pelicula', (req, res) => {
-    // Guardamos el cuerpo de la peticion
-    const newMovie = req.body;
-    // Agregamos el estudiante a la lista
-    dataMovie.push(newMovie);
-    updateDataFileM();
-    // Brindamos un mensaje de confirmacion
-    //status 2xx significa que la peticion fue exitosa
-    res.status(201).send({response:'Pelicula Nueva creado correctamente'});
-});
-
-/*--------------------------------------------------------------------*/
-
 // Endpoint en el cual recibimos los datos del usuario que se quiere loggear, se valida si el usuario existe o no
 // en el array de usuarios y también se valida que su password sea correcto
 app.post('/login', (req, res) => {
@@ -228,6 +211,24 @@ app.post('/login', (req, res) => {
         res.json(response);
     }
 });
+/*--------------------------------------------------------------------*/
+
+//Endpoint en el cual guardamos una nueva pelicula en la lista de Peliculas,
+//la info se manda en el body en formato json
+app.post('/admin/registro/pelicula', (req, res) => {
+    // Guardamos el cuerpo de la peticion
+    const newMovie = req.body;
+    // Agregamos el estudiante a la lista
+    dataMovie.push(newMovie);
+    updateDataFileM();
+    // Brindamos un mensaje de confirmacion
+    //status 2xx significa que la peticion fue exitosa
+    res.status(201).send({response:'Pelicula Nueva creado correctamente'});
+});
+
+/*--------------------------------------------------------------------*/
+
+
 
 /*--------------------------------------------------------------------*/
 /*////////////////////////------PUT------//////////////////////////// */

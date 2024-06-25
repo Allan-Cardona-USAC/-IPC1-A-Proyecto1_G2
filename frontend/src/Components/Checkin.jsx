@@ -8,7 +8,7 @@ function Checkin(){
     const [apellido, setApellido] = useState('');
     const [genero, setGenero] = useState('');
     const [correo, setCorreo] = useState('');
-    const [contrasenia, setContrasenia] = useState('');
+    const [contraseña, setContrasenia] = useState('');
     const [fecha, setFecha] = useState('');
 
     const navigate = useNavigate();
@@ -22,7 +22,7 @@ function Checkin(){
             apellido: apellido,
             genero: genero,
             correo: correo,
-            contrasenia: contrasenia,
+            contraseña: contraseña,
             fecha: fecha
         }
         // Este método se encarga de comunicarse con el backend con un endpoint específico, en este caso /login
@@ -115,7 +115,7 @@ function Checkin(){
                                             id="floatingContrasenia"
                                             placeholder="Contraseña"
                                             onChange={(e) => setContrasenia(e.target.value)}
-                                            value={contrasenia}
+                                            value={contraseña}
                                         />
                                         <label htmlFor="floatingContrasenia">Contraseña</label>
                                     </div>

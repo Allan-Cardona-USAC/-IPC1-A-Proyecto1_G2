@@ -1,5 +1,6 @@
 [
     {
+<<<<<<< Updated upstream
         "nombre": "Maria",
         "apellido": "Saban",
         "genero": "F",
@@ -22,5 +23,13 @@
         "correo": "raulyat@gmail.com",
         "contraseña": "654321",
         "nacimiento": "05/08/2000"
+=======
+        "nombre": "Administrador",
+        "apellido": "Usac",
+        "genero": "NAC",
+        "correo": "admin@usac.com",
+        "contraseña": "Admin",
+        "fecha": "00/00/0000"
+>>>>>>> Stashed changes
     }
 ]
