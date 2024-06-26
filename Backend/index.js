@@ -20,7 +20,7 @@ const FILENAMEMOVIE = 'Peliculas.json';
 //Nombre del archivo que nos dará persistencia de datos
 const FILENAMECOMMENT = 'Comentarios.json';
 //Nombre del archivo que nos dará persistencia de datos
-const FILENAMERECORD= 'Historial.json';
+const FILENAMERECORD = 'Historial.json';
 
 /*-----------------------------------------------------------------*/
 /*///////////----Especificaión del Framework------//////////////// */
@@ -42,6 +42,8 @@ let dataMovie = [];
 
 // Base de datos de Reseñas
 let dataComment = [];
+// Base de datos de Historial de peliculas alquiladas
+let dataRecord = [];
 
 /*-----------------------------------------------------------------*/
 /*/////////////////////---ARCHIVO-FILENAME---///////////////////// */
@@ -103,7 +105,25 @@ function updateDataFileC() {
     //vamos a sobreescribir el archivo con la nueva informacion
     fs.writeFileSync(FILENAMECOMMENT, JSON.stringify(dataComment));
 }
+/*-----------------------------------------------------------------*/
+/*/////////////////////--ARCHIVO-FILENAMEA--//////////////// */
+/*-----------------------------------------------------------------*/
+// Verificar y crear archivo si no existe
+if (!fs.existsSync(FILENAMERECORD)) {
+    // Si el archivo no existe, crearlo con un array vacio
+    //usando la funcion writeFileSync
+    fs.writeFileSync(FILENAMERECORD, JSON.stringify(dataRecord));
+} else {
+    // Si el archivo existe, cargar los datos
+    const fileDataR = fs.readFileSync(FILENAMERECORD, 'utf8');
+    dataRecord = JSON.parse(fileDataR);
 
+}
+// Función que ayuda a actualizar el contenido del archivo json
+function updateDataFileR() {
+    //vamos a sobreescribir el archivo con la nueva informacion
+    fs.writeFileSync(FILENAMERECORD, JSON.stringify(dataRecord));
+}
 /* Estructura para recibir peticiones:
  app = variable con la que creamos nuestro backend haciendo uso del framework express
  .Tipo de metodo = GET, POST, PUT, DELETE
@@ -172,6 +192,31 @@ app.get('/usuarios/:correo', (req, res) => {
         res.json(user);
     }
 });
+//Historial de Peliculas Alquiladas
+app.get('/historial/:correo', (req, res) => {
+    const correo = req.params.correo;
+    const historial = dataRecord.filter(record => record.correo === correo).map(record => {
+        let devueltoATiempo = true;
+        let multa = 0;
+        let horasExtra = 0;
+
+        if (record.devuelto && record.fecha_devolucion > record.fecha_devolucion_esperada) {
+            const tiempoExtra = record.fecha_devolucion - record.fecha_devolucion_esperada;
+            horasExtra = Math.ceil(tiempoExtra / (1000 * 60 * 60));
+            multa = 5 * horasExtra;
+            devueltoATiempo = false;
+        }
+
+        return {
+            ...record,
+            devueltoATiempo,
+            horasExtra,
+            multa
+        };
+    });
+
+    res.json(historial);
+});
 
 /*--------------------------------------------------------------------*/
 /*///////////////////////------POST------//////////////////////////// */
@@ -188,7 +233,7 @@ app.post('/usuarios/registro', (req, res) => {
     updateDataFile();
     // Brindamos un mensaje de confirmacion
     //status 2xx significa que la peticion fue exitosa
-    res.status(201).send({response:'Usuario creado correctamente'});
+    res.status(201).send({ response: 'Usuario creado correctamente' });
 });
 
 // Endpoint en el cual guardamos una nueva publicacion, la info se manda en el body en formato json
@@ -246,11 +291,36 @@ app.post('/admin/registro/pelicula', (req, res) => {
     updateDataFileM();
     // Brindamos un mensaje de confirmacion
     //status 2xx significa que la peticion fue exitosa
-    res.status(201).send({response:'Pelicula Nueva creado correctamente'});
+    res.status(201).send({ response: 'Pelicula Nueva creado correctamente' });
 });
 
 /*--------------------------------------------------------------------*/
+//Edpoint para alquilar una pelicula
+app.post('/alquiler/:correo/:titulo', (req, res) => {
+    const correo = req.params.correo;
+    const titulo = req.params.titulo;
+    const user = dataUser.find(user => user.correo === correo);
+    const movie = dataMovie.find(movie => movie.titulo === titulo);
 
+    if (!user || !movie) {
+        res.status(404).send({ response: 'Usuario o película no encontrado' });
+        return;
+    }
+    const fechaAlquiler = new Date();
+    const fechaDevolucionEsperada = new Date(fechaAlquiler.getTime() + 48 * 60 * 60 * 1000); // 48 horas después
+
+    const record = {
+        correo: correo,
+        titulo: titulo,
+        fecha_alquiler: fechaAlquiler,
+        fecha_devolucion_esperada: fechaDevolucionEsperada,
+        devuelto: false
+    };
+
+    dataRecord.push(record);
+    updateDataFileR();
+    res.status(201).send({ response: 'Película alquilada correctamente', fechaDevolucionEsperada });
+});
 
 
 /*--------------------------------------------------------------------*/
@@ -276,7 +346,7 @@ app.put('/usuarios/:correo', (req, res) => {
         dataUser[index].nombre = updatedUser.nombre;
         dataUser[index].apellido = updatedUser.apellido;
         dataUser[index].contraseña = updatedUser.contraseña;
-        dataUser[index].nacimiento= updatedUser.nacimiento;
+        dataUser[index].nacimiento = updatedUser.nacimiento;
         updateDataFile();
         //status 2xx significa que la peticion fue exitosa
         res.status(202).send('Usuario actualizado correctamente');
@@ -307,8 +377,8 @@ app.put('/admin/pelicula/:titulo', (req, res) => {
         dataMovie[indexM].precio = updatedMovie.precio;
         dataMovie[indexM].director = updatedMovie.director; // corregido aquí
         dataMovie[indexM].estreno = updatedMovie.estreno; // corregido aquí
-        dataMovie[indexM].duracion= updatedMovie.duracion;
-        dataMovie[indexM].genero= updatedMovie.genero;
+        dataMovie[indexM].duracion = updatedMovie.duracion;
+        dataMovie[indexM].genero = updatedMovie.genero;
         dataMovie[indexM].imagen = updatedMovie.imagen; // corregido aquí
 
         updateDataFileM();
@@ -316,6 +386,33 @@ app.put('/admin/pelicula/:titulo', (req, res) => {
         res.status(202).send('Pelicula actualizado correctamente');
     }
 });
+app.put('/devolucion/:correo/:titulo', (req, res) => {
+    const correo = req.params.correo;
+    const titulo = req.params.titulo;
+    const recordIndex = dataRecord.findIndex(record => record.correo === correo && record.titulo === titulo && !record.devuelto);
+
+    if (recordIndex === -1) {
+        res.status(404).send({ response: 'No se encontró un registro de alquiler activo para esta película' });
+        return;
+    }
+    const record = dataRecord[recordIndex];
+    const fechaDevolucion = new Date();
+    record.fecha_devolucion = fechaDevolucion;
+    record.devuelto = true;
+
+    let mensaje = 'Película devuelta correctamente';
+    let multa = 0;
+
+    if (fechaDevolucion > record.fecha_devolucion_esperada) {
+        const tiempoExtra = fechaDevolucion - record.fecha_devolucion_esperada;
+        const horasExtra = Math.ceil(tiempoExtra / (1000 * 60 * 60));
+        multa = 5 * horasExtra;
+        mensaje += `. Se ha aplicado una multa de Q${multa} por devolución tardía (${horasExtra} horas extra).`;
+    }
+    updateDataFileR();
+    res.status(202).send({ response: mensaje, multa });
+});
+
 
 /*--------------------------------------------------------------------*/
 /*/////////////////////------DELETE------//////////////////////////// */
@@ -333,9 +430,9 @@ app.delete('/usuarios/:correo', (req, res) => {
             console.log("--------------------");
             console.log("Usuario encontrado");
             console.log("--------------------");
-            
+
             return user
-            
+
         }
     });
     // Si no existe el objeto nos retorna un -1
@@ -369,9 +466,9 @@ app.delete('/admin/pelicula/:titulo', (req, res) => {
             console.log("--------------------");
             console.log("Pelicula encontrado");
             console.log("--------------------");
-            
+
             return peli
-            
+
         }
     });
     // Si no existe el objeto nos retorna un -1
@@ -388,6 +485,38 @@ app.delete('/admin/pelicula/:titulo', (req, res) => {
         //status 2xx significa que la peticion fue exitosa
         res.status(200).send({ mensaje: 'Pelicula Eliminada correctamente' });
         console.log(`Pelicula eliminada correctamente: ${titulo}`)
+    }
+});
+// Endpoint con el cual eliminaremos un objeto de la lista de pelicula especifico
+app.delete('/eliminarComentario/:id', (req, res) => {
+    // Obtenemosel id del objeto que se va a actualizar
+    const id = req.params.id;
+    // Obtenemos el indice de la lista en donde se encuentra el objeto con el id
+    const indexE = dataComment.findIndex(coment => {
+        // Verificamos si el carnet del objeto es igual al correo que se quiere eliminar
+        console.log(coment.id)
+        if (coment.id === parseInt(id)) {
+            console.log("--------------------");
+            console.log("Comentario encontrado");
+            console.log("--------------------");
+            return coment
+
+        }
+    });
+    // Si no existe el objeto nos retorna un -1
+    if (indexE === -1) {
+        //status 4xx significa que hubo un error del lado del cliente
+        res.status(404).send({ mensaje: 'Comentario no encontrado' });
+        //else si existe el objeto
+    } else {
+        // Si se encontro el objeto, editamos sus atributos haciendo uso del indice
+        // Eliminamos el objeto
+        dataComment.splice(indexE, 1);
+        // Actualizamos el archivo
+        updateDataFileC();
+        //status 2xx significa que la peticion fue exitosa
+        res.status(200).send({ mensaje: 'Comentario Eliminada correctamente' });
+        console.log(`Comentario eliminada correctamente: ${id}`)
     }
 });
 

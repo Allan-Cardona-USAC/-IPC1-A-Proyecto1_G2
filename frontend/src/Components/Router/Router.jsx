@@ -2,12 +2,15 @@ import {BrowserRouter, Routes, Route, Navigate} from 'react-router-dom';
 import Login from '../Login';
 import Checkin from '../Checkin';
 import AgregarEditarAdmin from '../AgregarEditarAdmin';
-import EditarAdmin from '../EditarAdmin';
 import EliminarAdmin from '../EliminarAdmin';
-import EliminarPeliculaAdmin from '../EliminarPeliculaAdmin';
 import InicioUsuario from '../InicioUsuario';
 import InicioAdmin from '../InicioAdmin';
-//import Admin from '../Admin';
+import Comentarios from '../Comentarios';
+import Alquiler from '../Alquiler';
+import EditarPerfil from '../EditarPerfil';
+import VerComentarios from '../VerComentarios';
+import EditarAdmin from '../EditarAdmin';
+import EliminarPeliculaAdmin from '../EliminarPeliculaAdmin';
 
 
 
@@ -25,7 +28,10 @@ function Router(){
                 <Route path='/EliminarPeliculaAdmin' element={<EliminarPeliculaAdmin/>} />
                 <Route path='/InicioUsuario' element={<InicioUsuario/>} />
                 <Route path='/InicioAdmin' element={<InicioAdmin/>} />
-                {/*<Route path='/admin' element={<Admin/>} />*/}
+                <Route path='/Comentarios' element={<Comentarios/>} />
+                <Route path='/Alquiler' element={<Alquiler/>} />
+                <Route path='/EditarPerfil' element={<EditarPerfil/>} />
+                <Route path='/VerComentarios' element={<VerComentarios/>} />
             </Routes>
         </BrowserRouter>
     )

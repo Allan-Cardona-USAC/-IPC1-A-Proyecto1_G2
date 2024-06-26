@@ -1,1 +1,18 @@
-[{"nombre":"Administrador","apellido":"Facultad-Ingenieria","genero":"F","correo":"kpz_m@gmail.com","contraseña":"12345678","nacimiento":"25/06/2024"}]
+[
+    {
+        "nombre": "Administrador",
+        "apellido": "Facultad-Ingenieria",
+        "genero": "F",
+        "correo": "kpz_m@gmail.com",
+        "contraseña": "12345678",
+        "nacimiento": "25/06/2024"
+    },
+    {
+        "nombre": "Allan",
+        "apellido": "Cardona",
+        "genero": "Masculino",
+        "correo": "allancardona2000@gmail.com",
+        "contraseña": "ingenieria",
+        "fecha": "2000-08-27"
+    }
+]
