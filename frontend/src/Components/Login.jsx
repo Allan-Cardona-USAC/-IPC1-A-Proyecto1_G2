@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import './Styles/Login.css';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 function Login() {
     //Creación de los estados de la pantalla
@@ -43,31 +44,31 @@ function Login() {
                     // De la respuesta que mandó el backend guardamos únicamente el valor del atributo user
                     const dataUser = res.user;
                     // Mostramos el nombre y apellido del usuario
-                    /*Swal.fire({
+                    Swal.fire({
                          title: 'Login',
                          text: 'Welcome ${dataUser.nombre} ${dataUser.apellido}',
                          icon: 'success',
                          confirmButtonText: 'Ok'
-                     })*/
+                     })
                     // Guardamos en las cookies lo que mandó el backend
                     setCookie('usuario', dataUser);
-                    console.log(dataUser.role)
+                    console.log(dataUser.correo)
                     // Validamos el rol
-                    if (dataUser.correo === "kpz_m@gmail.com" && dataUser.contraseña === "654321") {
+                    if (dataUser.correo === "kpz_m@gmail.com" && dataUser.contraseña === "12345678") {
                         // Navegamos a la ruta donde se encuentra la pantalla del admin
                         navigate('/InicioAdmin')
-                    } else if (dataUser.correo != "kpz_m@gmail.com" && dataUser.contraseña != "654321") {
+                    } else if (dataUser.correo !== "kpz_m@gmail.com" && dataUser.contraseña !== "12345678") {
                         // Navegamos a la ruta donde se encuentra la pantalla del usuario
                         navigate('/InicioUsuario')
                     }
                 } else {
                     // Si las credenciales están mal se muestra el siguiente mensaje.
-                    /*Swal.fire({
+                    Swal.fire({
                          title: 'Error',
                          text: 'Correo y/o contraseña incorrecta',
                          icon: 'error',
                          confirmButtonText: 'Ok'
-                     })*/
+                     })
                 }
                 // Se limpian los estados
                 setCorreo("")

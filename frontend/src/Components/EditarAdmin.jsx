@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import './Styles/AgregarPeliculasAdmin.css';
-import { useCookies } from 'react-cookie';
 import { useNavigate } from "react-router-dom";
 
-function AgregarPeliculasAdmin() {
+function EditarPeliculasAdmin() {
     const [titulo, setTitulo] = useState('');
     const [sinopsis, setSinopsis] = useState('');
     const [precio, setPrecio] = useState('');
@@ -16,52 +15,41 @@ function AgregarPeliculasAdmin() {
     const navigate = useNavigate();
 
     const data = {
-        titulo: titulo,
-        sinopsis: sinopsis,
-        precio: precio,
-        director: director,
-        estreno: estreno,
-        duracion: duracion,
-        genero: genero,
-        imagen: imagen
+        titulo,
+        sinopsis,
+        precio,
+        director,
+        estreno, // corregido aquí
+        duracion,
+        genero,
+        imagen,
     }
 
-
-
-    const handleGuardar = (event) => {
+    const handleActualizar = (event) => {
         event.preventDefault();
 
-        // Este método se encarga de comunicarse con el backend con un endpoint específico, en este caso /login
-        fetch(`http://localhost:5000/admin/registro/pelicula`, {
-            // Se especifica el tipo de método
-            method: "POST",
-            // Se parsea a json el cuerpo que se mandará
+        fetch(`http://localhost:5000/admin/pelicula/${titulo}`, {
+            method: "PUT",
             body: JSON.stringify(data),
-            // Se agregan los encabezados
             headers: {
                 "Content-Type": "application/json",
             },
         })
-            // Se obtiene la respuesta y se pasa a json
-            .then((response) => response.json())
-            // Una vez se tiene la respuesta en json se realizará lo siguiente
-            .then((res) => {
-                // Imprimimos en consola la respuesta
-                console.log(res)
-                // Mostramos el nombre y apellido del usuario
-                alert(res.response)
-                // Se limpian los estados
-                setTitulo("")
-                setSinopsis("")
-                setPrecio("")
-                setDirector("")
-                setEstreno("")
-                setDuracion("")
-                setGenero("")
-                setImagen("")
-            })
-            .catch((error) => console.error(error));
+        .then((response) => response.json())
+        .then((res) => {
+            console.log(res)
+            alert(res.response)
+            setSinopsis("")
+            setPrecio("")
+            setDirector("")
+            setEstreno("")
+            setDuracion("")
+            setGenero("")
+            setImagen("")
+        })
+        .catch((error) => console.error(error));
     };
+
     return (
         <div className="login-background">
             <div className="container-fluid h-100">
@@ -69,103 +57,98 @@ function AgregarPeliculasAdmin() {
                     <div className="col-md-6 mx-auto">
                         <div className="card">
                             <div className="card-body">
-                                <h2 className="card-title text-center mb-4">Agregar Películas</h2>
+                                <h2 className="card-title text-center mb-4">Editar Películas</h2>
 
                                 <div className="form-floating" style={{ width: "100%" }}>
                                     <input
-                                        type="tituloInput"
+                                        type="text"
                                         className="form-control"
-                                        id="floatingInput"
+                                        id="tituloInput"
                                         placeholder="Star Wars: Episodio III - La venganza de los sith"
                                         onChange={(e) => setTitulo(e.target.value)}
                                         value={titulo}
                                     />
-                                    <label htmlFor="floatingInput">Titulo de la Película</label>
+                                    <label htmlFor="tituloInput">Titulo de la Película</label>
                                 </div>
                                 <div className="form-floating" style={{ width: "100%" }}>
                                     <input
-                                        type="sinopsisInput"
+                                        type="text"
                                         className="form-control"
-                                        id="floatingInput"
+                                        id="sinopsisInput"
                                         placeholder="¡Guerra! La República se desmorona bajo los ataques del despiadado Lord Sith, el conde Dooku..."
                                         onChange={(e) => setSinopsis(e.target.value)}
                                         value={sinopsis}
                                     />
-                                    <label htmlFor="floatingInput">Sinopsis de la Película</label>
+                                    <label htmlFor="sinopsisInput">Sinopsis de la Película</label>
                                 </div>
                                 <div className="form-floating" style={{ width: "100%" }}>
                                     <input
-                                        type="precioInput"
+                                        type="text"
                                         className="form-control"
-                                        id="floatingInput"
+                                        id="precioInput"
                                         placeholder="Q150.00"
                                         onChange={(e) => setPrecio(e.target.value)}
                                         value={precio}
                                     />
-                                    <label htmlFor="floatingInput">Precio de la Película</label>
+                                    <label htmlFor="precioInput">Precio de la Película</label>
                                 </div>
                                 <div className="form-floating" style={{ width: "100%" }}>
                                     <input
-                                        type="directorInput"
+                                        type="text"
                                         className="form-control"
-                                        id="floatingInput"
+                                        id="directorInput"
                                         placeholder="George Lucas"
                                         onChange={(e) => setDirector(e.target.value)}
                                         value={director}
                                     />
-                                    <label htmlFor="floatingInput">Director de la Película</label>
+                                    <label htmlFor="directorInput">Director de la Película</label>
                                 </div>
                                 <div className="form-floating" style={{ width: "100%" }}>
                                     <input
-                                        type="estrenoInput"
+                                        type="text"
                                         className="form-control"
-                                        id="floatingInput"
+                                        id="estrenoInput"
                                         placeholder="2005"
                                         onChange={(e) => setEstreno(e.target.value)}
                                         value={estreno}
                                     />
-                                    <label htmlFor="floatingInput">Año de Estreno de la Película</label>
+                                    <label htmlFor="estrenoInput">Año de Estreno de la Película</label>
                                 </div>
                                 <div className="form-floating" style={{ width: "100%" }}>
                                     <input
-                                        type="duracionInput"
+                                        type="text"
                                         className="form-control"
-                                        id="floatingInput"
+                                        id="duracionInput"
                                         placeholder="2h y 20 min"
                                         onChange={(e) => setDuracion(e.target.value)}
                                         value={duracion}
                                     />
-                                    <label htmlFor="floatingInput">Duración de la Película</label>
+                                    <label htmlFor="duracionInput">Duración de la Película</label>
                                 </div>
                                 <div className="form-floating" style={{ width: "100%" }}>
                                     <input
-                                        type="generoInput"
+                                        type="text"
                                         className="form-control"
-                                        id="floatingInput"
+                                        id="generoInput"
                                         placeholder="Ciencia Ficción"
                                         onChange={(e) => setGenero(e.target.value)}
                                         value={genero}
                                     />
-                                    <label htmlFor="floatingInput">Género</label>
+                                    <label htmlFor="generoInput">Género</label>
                                 </div>
                                 <div className="form-floating" style={{ width: "100%" }}>
-                                    <div className="form-floating" style={{ width: "100%" }}>
-                                        <input
-                                            type="imagenInput"
-                                            className="form-control"
-                                            id="floatingInput"
-                                            placeholder="*Inserte Póster de Star Wars: Episodio III - La venganza de los sith*"
-                                            onChange={(e) => setImagen(e.target.value)}
-                                            value={imagen}
-                                        />
-                                        <label htmlFor="floatingContrasenia">Imagen o Póster de la Pelicula</label>
-                                    </div>
-
-
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="imagenInput"
+                                        placeholder="*Inserte Póster de Star Wars: Episodio III - La venganza de los sith*"
+                                        onChange={(e) => setImagen(e.target.value)}
+                                        value={imagen}
+                                    />
+                                    <label htmlFor="imagenInput">Imagen o Póster de la Pelicula</label>
                                 </div>
                                 <div className="text-center">
-                                    <button onClick={handleGuardar} id="botonGuardar" className="btn btn-outline-danger">Guardar Pelicula</button>
-                                    {/* <button onClick={handleActualizar} id="botonActualizar" className="btn btn-outline-danger">Editar Pelicula</button> */}
+                                    <button onClick={handleActualizar} id="botonActualizar" className="btn btn-outline-danger">Editar Pelicula</button>
                                     <button onClick={() => navigate("/InicioAdmin")} className="btn btn-outline-danger">Regresar a Inicio</button>
                                 </div>
 
@@ -178,4 +161,4 @@ function AgregarPeliculasAdmin() {
     );
 }
 
-export default AgregarPeliculasAdmin;
+export default EditarPeliculasAdmin;

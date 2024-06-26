@@ -282,11 +282,11 @@ app.put('/admin/pelicula/:titulo', (req, res) => {
         dataMovie[indexM].titulo = updatedMovie.titulo;
         dataMovie[indexM].sinopsis = updatedMovie.sinopsis;
         dataMovie[indexM].precio = updatedMovie.precio;
-        dataMovie[indexM].dierctor= updatedMovie.dierctor;
-        dataMovie[indexM].año= updatedMovie.año;
+        dataMovie[indexM].director = updatedMovie.director; // corregido aquí
+        dataMovie[indexM].estreno = updatedMovie.estreno; // corregido aquí
         dataMovie[indexM].duracion= updatedMovie.duracion;
         dataMovie[indexM].genero= updatedMovie.genero;
-        dataMovie[indexM].img= updatedMovie.img;
+        dataMovie[indexM].imagen = updatedMovie.imagen; // corregido aquí
 
         updateDataFileM();
         //status 2xx significa que la peticion fue exitosa

@@ -1,4 +1,4 @@
-.login-background {
+.login-backgroundC {
     background-image: url('../Images/fondoCheckin.jpg');
     background-size: cover;
     background-position: center;
@@ -39,3 +39,4 @@
   .text-center button{
     margin: 25px;
   }
+  
