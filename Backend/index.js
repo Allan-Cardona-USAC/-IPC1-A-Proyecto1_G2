@@ -129,6 +129,11 @@ app.get('/usuarios', (req, res) => {
     res.json(dataUser);
 });
 
+// Endpoint el cual retorna todos los comentarios almacenados
+app.get('/comentarios', (req, res) => {
+    res.json(dataComment);
+});
+
 /*--------------------------------------------------------------------*/
 
 //get para peliculas
@@ -185,6 +190,24 @@ app.post('/usuarios/registro', (req, res) => {
     //status 2xx significa que la peticion fue exitosa
     res.status(201).send({response:'Usuario creado correctamente'});
 });
+
+// Endpoint en el cual guardamos una nueva publicacion, la info se manda en el body en formato json
+app.post('/nuevoComentario', (req, res) => {
+    // Guardamos el cuerpo de la peticion
+    const newPost = req.body;
+    const savePost = {
+        id: (dataComment.length + 1),
+        description: newPost.description,
+        image: newPost.image,
+        name: newPost.name
+    };
+    // Agregamos el estudiante a la lista
+    dataComment.push(savePost);
+    updateDataFileC();
+    // Brindamos un mensaje de confirmacion
+    res.status(201).send({ response: 'Publicacion guardada correctamente.' });
+});
+
 // Endpoint en el cual recibimos los datos del usuario que se quiere loggear, se valida si el usuario existe o no
 // en el array de usuarios y también se valida que su password sea correcto
 app.post('/login', (req, res) => {
