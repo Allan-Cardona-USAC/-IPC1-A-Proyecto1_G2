@@ -56,8 +56,6 @@ function AgregarPeliculasAdmin() {
                     icon: 'success',
                     confirmButtonText: 'Ok'
                 });
-                // Mostramos el nombre y apellido del usuario
-                alert(res.response)
                 // Se limpian los estados
                 setTitulo("")
                 setSinopsis("")

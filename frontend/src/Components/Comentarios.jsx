@@ -44,13 +44,14 @@ function Comentarios() {
         const data = {
             description: description,
             image: base64Image,
-            name: "Juan"
+            name: `${userName.nombre}`
+            //name: `${userName.nombre} ${userName.apellido}`
         }
 
         console.log(data)
         
         // Este método se encarga de comunicarse con el backend con un endpoint específico, en este caso /createPost
-        fetch(`http://localhost:5000/comentarios`, {
+        fetch(`http://localhost:5000/nuevoComentario`, {
             // Se especifica el tipo de método
             method: "POST",
             // Se parsea a json el cuerpo que se mandará
@@ -77,7 +78,7 @@ function Comentarios() {
     return (
         <Fragment>
             <div className="login-background">
-            <div style={{ display: "flex", alignItems: "center", height: "10vh", width: "100%", top: "0", backgroundColor: "#D41212" }}>
+            <div style={{ display: "flex", alignItems: "center", height: "10vh", width: "100%", top: "0", backgroundColor: "#140B69" }}>
                 <div style={{ display: "flex", alignItems: "center", height: "10vh", width: "50%", top: 0, paddingLeft: "5%" }}>
                     <ul style={{ listStyleType: "none", display: "flex", padding: 0, height: "100%", alignItems: "center", margin: "0px" }}>
                         <li style={{ color: "white", marginRight: "35px" }}>
@@ -101,7 +102,7 @@ function Comentarios() {
                 </div>
             </div>
             <div style={{ display: "flex", alignItems: "center", height: "90vh", width: "100%", top: "10", paddingBottom: "5%", paddingTop: "5%" }}>
-                <div className="container-fluid h-100" style={{ marginRight: "20%", marginLeft: "20%", borderRadius: "25px", backgroundColor: "#D41212", display: "flex", padding: "5%", color: "white", flexDirection: "column" }}>
+                <div className="container-fluid h-100" style={{ marginRight: "20%", marginLeft: "20%", borderRadius: "25px", backgroundColor: "#140B69", display: "flex", padding: "5%", color: "white", flexDirection: "column" }}>
                     <h1>Comentario:</h1>
                     <textarea className="form-control" rows="5" style={{ resize: "none", marginTop: "3%" }} onChange={(e) => setDescription(e.target.value)} value={description}>
                     </textarea>

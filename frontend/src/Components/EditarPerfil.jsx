@@ -26,14 +26,13 @@ function EditarPerfil() {
             nombre: nombre,
             apellido: apellido,
             genero: genero,
-            correo: correo,
             contraseña: contraseña,
             fecha: fecha
         }
         // Este método se encarga de comunicarse con el backend con un endpoint específico, en este caso /login
-        fetch(`http://localhost:5000/usuarios/registro`, {
+        fetch(`http://localhost:5000/usuarios/${correo}`, {
             // Se especifica el tipo de método
-            method: "POST",
+            method: "PUT",
             // Se parsea a json el cuerpo que se mandará
             body: JSON.stringify(data),
             // Se agregan los encabezados
@@ -61,7 +60,7 @@ function EditarPerfil() {
 
     return (
         <div className="login-background">
-            <div style={{ display: "flex", alignItems: "center", height: "10vh", width: "100%", top: "0", backgroundColor: "#D41212" }}>
+            <div style={{ display: "flex", alignItems: "center", height: "10vh", width: "100%", top: "0", backgroundColor: "#140B69" }}>
                 <div style={{ display: "flex", alignItems: "center", height: "10vh", width: "50%", top: 0, paddingLeft: "5%" }}>
                     <ul style={{ listStyleType: "none", display: "flex", padding: 0, height: "100%", alignItems: "center", margin: "0px" }}>
                     <li style={{ color: "white", marginRight: "35px" }}>

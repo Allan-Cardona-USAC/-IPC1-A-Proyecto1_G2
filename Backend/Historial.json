@@ -1,8 +1,24 @@
 [
     {
         "correo": "allancardona2000@gmail.com",
-        "titulo": "MonjaII",
+        "titulo": "La Monja",
         "fecha_alquiler": "2024-06-26T17:51:34.154Z",
+        "fecha_devolucion_esperada": "2024-06-28T17:51:34.154Z",
+        "devuelto": false
+    },
+    {
+        "correo": "allancardona2000@gmail.com",
+        "titulo": "Joker: Folie à Deux",
+        "fecha_alquiler": "2024-06-23T17:51:34.154Z",
+        "fecha_devolucion_esperada": "2024-06-28T17:51:34.154Z",
+        "devuelto": true,
+        "fecha_devolucion": "2024-06-28T20:03:16.062Z",
+        "multa": "15.00"
+    },
+    {
+        "correo": "allancardona2000@gmail.com",
+        "titulo": "Furiosa: A Mad Max Saga",
+        "fecha_alquiler": "2024-06-23T17:51:34.154Z",
         "fecha_devolucion_esperada": "2024-06-28T17:51:34.154Z",
         "devuelto": false
     }

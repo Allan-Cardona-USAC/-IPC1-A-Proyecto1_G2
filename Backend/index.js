@@ -171,7 +171,7 @@ app.get('/usuarios/peliculas/catalogo', (req, res) => {
 
 /*--------------------------------------------------------------------*/
 
-// Endpoint el cual retorna un estudiante en especifico a partir de su correo
+// Endpoint el cual retorna un usuario en especifico a partir de su correo
 // /:correo es un parametro el cual no conocemos su valor, es una manera dinamica de obtener valores
 app.get('/usuarios/:correo', (req, res) => {
     // Obtenemos el correo que viene en los parametros de la url
@@ -385,6 +385,7 @@ app.put('/admin/pelicula/:titulo', (req, res) => {
         res.status(202).send('Pelicula actualizado correctamente');
     }
 });
+// devolucion de Pelicula + multa
 app.put('/devolucion/:correo/:titulo', (req, res) => {
     const correo = req.params.correo;
     const titulo = req.params.titulo;

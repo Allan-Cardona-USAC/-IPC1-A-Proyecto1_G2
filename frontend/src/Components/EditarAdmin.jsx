@@ -47,6 +47,14 @@ function EditarPeliculasAdmin() {
                 setSelectedUser(null);
             })
             .catch(error => console.error("Error al actualizar la película:", error));
+            Swal.fire({
+                title: 'Pelicula Actualizada',
+                text: `Pelicula ha sido actualizada`,
+                icon: 'success',
+                confirmButtonText: 'Ok'
+            });
+            setValidarActualizacion(() => !validarActualizacion);
+            setSelectedUser(null);
     };
 
     const viewUser = (user) => {
