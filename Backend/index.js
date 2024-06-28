@@ -371,8 +371,7 @@ app.put('/admin/pelicula/:titulo', (req, res) => {
         //status 4xx significa que hubo un error del lado del cliente
         res.status(404).send('Elemento no encontrado');
     } else {
-        // Si se encontro el objeto, editamos sus atributos haciendo uso del indice
-        dataMovie[indexM].titulo = updatedMovie.titulo;
+        dataMovie[indexM].titulo = updatedMovie.titulo// Si se encontro el objeto, editamos sus atributos haciendo uso del indice
         dataMovie[indexM].sinopsis = updatedMovie.sinopsis;
         dataMovie[indexM].precio = updatedMovie.precio;
         dataMovie[indexM].director = updatedMovie.director; // corregido aquí

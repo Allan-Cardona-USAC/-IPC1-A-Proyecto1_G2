@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import './Styles/AgregarPeliculasAdmin.css';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 function AgregarPeliculasAdmin() {
     const [titulo, setTitulo] = useState('');
@@ -49,6 +50,13 @@ function AgregarPeliculasAdmin() {
                 // Imprimimos en consola la respuesta
                 console.log(res)
                 // Mostramos el nombre y apellido del usuario
+                Swal.fire({
+                    title: 'Pelicula Guardada',
+                    text: 'Pelicula '+ data.titulo  + ` ha sido registrado`,
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                });
+                // Mostramos el nombre y apellido del usuario
                 alert(res.response)
                 // Se limpian los estados
                 setTitulo("")
@@ -67,11 +75,11 @@ function AgregarPeliculasAdmin() {
             <div className="container-fluid h-100">
                 <div className="row align-items-center h-100">
                     <div className="col-md-6 mx-auto">
-                        <div className="card">
+                        <div className="card" style={{backgroundColor:"silver"}}>
                             <div className="card-body">
                                 <h2 className="card-title text-center mb-4">Agregar Películas</h2>
 
-                                <div className="form-floating" style={{ width: "100%" }}>
+                                <div className="form-floating" style={{ width: "100%", padding: "5px" }}>
                                     <input
                                         type="tituloInput"
                                         className="form-control"
@@ -82,29 +90,31 @@ function AgregarPeliculasAdmin() {
                                     />
                                     <label htmlFor="floatingInput">Titulo de la Película</label>
                                 </div>
-                                <div className="form-floating" style={{ width: "100%" }}>
-                                    <input
-                                        type="sinopsisInput"
+                                <div className="form-floating" style={{ width: "100%", padding: "5px" }}>
+                                    <textarea
                                         className="form-control"
-                                        id="floatingInput"
+                                        id="floatingTextarea"
                                         placeholder="¡Guerra! La República se desmorona bajo los ataques del despiadado Lord Sith, el conde Dooku..."
                                         onChange={(e) => setSinopsis(e.target.value)}
                                         value={sinopsis}
+                                        style={{ height: "50px", overflowY: "auto" }} // Ajusta la altura según sea necesario
                                     />
-                                    <label htmlFor="floatingInput">Sinopsis de la Película</label>
+                                    <label htmlFor="floatingTextarea">Sinopsis de la Película</label>
                                 </div>
-                                <div className="form-floating" style={{ width: "100%" }}>
+                                <div className="form-floating" style={{ width: "100%", padding: "5px" }}>
                                     <input
-                                        type="precioInput"
+                                        type="number"
                                         className="form-control"
-                                        id="floatingInput"
+                                        id="floatingPrecio"
                                         placeholder="Q150.00"
                                         onChange={(e) => setPrecio(e.target.value)}
                                         value={precio}
+                                        step="0.01" // Permite valores decimales
+                                        min="0" // Evita valores negativos
                                     />
-                                    <label htmlFor="floatingInput">Precio de la Película</label>
+                                    <label htmlFor="floatingPrecio">Precio de la Película (Q)</label>
                                 </div>
-                                <div className="form-floating" style={{ width: "100%" }}>
+                                <div className="form-floating" style={{ width: "100%", padding: "5px" }}>
                                     <input
                                         type="directorInput"
                                         className="form-control"
@@ -115,58 +125,59 @@ function AgregarPeliculasAdmin() {
                                     />
                                     <label htmlFor="floatingInput">Director de la Película</label>
                                 </div>
-                                <div className="form-floating" style={{ width: "100%" }}>
+                                <div className="form-floating" style={{ width: "100%", padding: "5px" }}>
                                     <input
-                                        type="estrenoInput"
+                                        type="date"
                                         className="form-control"
-                                        id="floatingInput"
-                                        placeholder="2005"
+                                        id="floatingDate"
+                                        placeholder="2005-05-19"
                                         onChange={(e) => setEstreno(e.target.value)}
                                         value={estreno}
                                     />
-                                    <label htmlFor="floatingInput">Año de Estreno de la Película</label>
+                                    <label htmlFor="floatingDate">Fecha de Estreno de la Película</label>
                                 </div>
-                                <div className="form-floating" style={{ width: "100%" }}>
+                                <div className="form-floating" style={{ width: "100%", padding: "5px" }}>
                                     <input
-                                        type="duracionInput"
+                                        type="number"
                                         className="form-control"
-                                        id="floatingInput"
-                                        placeholder="2h y 20 min"
+                                        id="floatingDuracion"
+                                        placeholder="140" // Ejemplo de duración en minutos
                                         onChange={(e) => setDuracion(e.target.value)}
                                         value={duracion}
+                                        min="0" // Evita valores negativos
                                     />
-                                    <label htmlFor="floatingInput">Duración de la Película</label>
+                                    <label htmlFor="floatingDuracion">Duración de la Película (minutos)</label>
                                 </div>
-                                <div className="form-floating" style={{ width: "100%" }}>
+                                <div className="form-floating" style={{ width: "100%", padding: "5px" }}>
+                                    <select
+                                        className="form-control"
+                                        id="floatingGenero"
+                                        onChange={(e) => setGenero(Array.from(e.target.selectedOptions, option => option.value))}
+                                        value={genero}
+                                    >
+                                        <option value="Acción">Acción</option>
+                                        <option value="Comedia">Comedia</option>
+                                        <option value="Drama">Drama</option>
+                                        <option value="Ciencia Ficción">Ciencia Ficción</option>
+                                        <option value="Terror">Terror</option>
+                                    </select>
+                                    <label htmlFor="floatingGenero">Géneros de la Película</label>
+                                </div>
+                                <div className="form-floating" style={{ width: "100%", padding: "5px" }}>
                                     <input
-                                        type="generoInput"
+                                        type="imagenInput"
                                         className="form-control"
                                         id="floatingInput"
-                                        placeholder="Ciencia Ficción"
-                                        onChange={(e) => setGenero(e.target.value)}
-                                        value={genero}
+                                        placeholder="*Inserte Póster de Star Wars: Episodio III - La venganza de los sith*"
+                                        onChange={(e) => setImagen(e.target.value)}
+                                        value={imagen}
                                     />
-                                    <label htmlFor="floatingInput">Género</label>
-                                </div>
-                                <div className="form-floating" style={{ width: "100%" }}>
-                                    <div className="form-floating" style={{ width: "100%" }}>
-                                        <input
-                                            type="imagenInput"
-                                            className="form-control"
-                                            id="floatingInput"
-                                            placeholder="*Inserte Póster de Star Wars: Episodio III - La venganza de los sith*"
-                                            onChange={(e) => setImagen(e.target.value)}
-                                            value={imagen}
-                                        />
-                                        <label htmlFor="floatingContrasenia">Imagen o Póster de la Pelicula</label>
-                                    </div>
-
-
+                                    <label htmlFor="floatingContrasenia">Imagen o Póster de la Pelicula</label>
                                 </div>
                                 <div className="text-center">
-                                    <button onClick={handleGuardar} id="botonGuardar" className="btn btn-outline-danger">Guardar Pelicula</button>
-                                    {/* <button onClick={handleActualizar} id="botonActualizar" className="btn btn-outline-danger">Editar Pelicula</button> */}
-                                    <button onClick={() => navigate("/InicioAdmin")} className="btn btn-outline-danger">Regresar a Inicio</button>
+                                    <button onClick={handleGuardar} id="botonGuardar" class="btn btn-outline-success">Guardar Pelicula</button>
+
+                                    <button onClick={() => navigate("/InicioAdmin")} className="btn btn-outline-danger">Regresar</button>
                                 </div>
 
                             </div>

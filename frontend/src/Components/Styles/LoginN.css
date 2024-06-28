@@ -1,0 +1,68 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.login-background {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+}
+
+.container-fluid {
+    max-width: 1200px;
+    width: 100%;
+}
+
+.welcome-section {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 50px;
+}
+
+.login-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card {
+    width: 100%;
+    max-width: 400px;
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.card-body {
+    padding: 30px;
+    background-color: #fff;
+}
+
+.form-control {
+    border-radius: 5px;
+}
+
+.btn-primary {
+    background-color: #6a11cb;
+    border-color: #6a11cb;
+}
+
+.btn-primary:hover {
+    background-color: #2575fc;
+    border-color: #2575fc;
+}
+
+.forgot-password {
+    color: #6a11cb;
+}
+
+.forgot-password:hover {
+    color: #2575fc;
+}

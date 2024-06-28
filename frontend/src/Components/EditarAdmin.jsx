@@ -1,9 +1,168 @@
-import React, { useState } from "react";
-import './Styles/AgregarPeliculasAdmin.css';
+import React, { useState, useEffect, Fragment } from 'react';
+import { Modal, Button } from 'react-bootstrap';
+import './Styles/ListaPeliculas.css';
+import { useCookies } from 'react-cookie';
 import { useNavigate } from "react-router-dom";
+import Swal from 'sweetalert2';
 
 function EditarPeliculasAdmin() {
-    const [titulo, setTitulo] = useState('');
+
+     // Se declaran los estados iniciales
+    const [users, setUsers] = useState([]);
+    const [selectedUser, setSelectedUser] = useState(null);
+    const [validarActualizacion, setValidarActualizacion] = useState(false);
+    const [cookies, setCookie, removeCookie] = useCookies(['usuario']);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        fetch(`http://localhost:5000/usuarios/peliculas/catalogo`, {
+            method: "GET",
+        })
+            .then((response) => response.json())
+            .then((res) => {
+                console.log(res)
+                setUsers(res);
+            })
+            .catch((error) => console.error(error));
+    }, [validarActualizacion]);
+
+    const updateUser = (titulo) => {
+        fetch(`http://localhost:5000/admin/pelicula/${titulo}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(selectedUser)
+        })
+            .then(response => response.json())
+            .then(res => {
+                console.log(res)
+                Swal.fire({
+                    title: 'Pelicula Actualizada',
+                    text: `Pelicula ha sido actualizada`,
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                });
+                setValidarActualizacion(() => !validarActualizacion);
+                setSelectedUser(null);
+            })
+            .catch(error => console.error("Error al actualizar la película:", error));
+    };
+
+    const viewUser = (user) => {
+        setSelectedUser(user);
+    };
+
+    const handleClose = () => {
+        setSelectedUser(null);
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setSelectedUser(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const handleLogout = () => {
+        removeCookie('usuario');
+        navigate('/login')
+    };
+
+    return (
+        <Fragment>
+            <div style={{ display: "flex", alignItems: "center", height: "10vh", width: "100%", top: "0", backgroundColor: "#212529", flexDirection: "row-reverse", paddingRight: "5%", position: "fixed" }}>
+                <button className="btn btn-outline-info" onClick={() => navigate("/InicioAdmin")}>
+                    Volver al Inicio
+                </button>
+            </div>
+            <div style={{ display: "flex", alignItems: "center", height: "90vh", width: "100%", top: "10" }}>
+                <div className="table-containerLP">
+                    <table className="table table-bordered text-center">
+                        <thead className="table-dark">
+                            <tr>
+                                <th>Titulo</th>
+                                <th>Precio</th>
+                                <th>Director</th>
+                                <th>Año Estreno</th>
+                                <th>Duracion</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {users.map(user => (
+                                <tr key={user.titulo}>
+                                    <td>{user.titulo}</td>
+                                    <td>{"Q." + user.precio}</td>
+                                    <td>{user.director}</td>
+                                    <td>{user.estreno}</td>
+                                    <td>{user.duracion + "min."}</td>
+                                    
+                                    <td>
+                                        <button className="btn btn-outline-success" onClick={() => viewUser(user)}>Editar</button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+
+                    {selectedUser && (
+                        <Modal show={true} onHide={handleClose}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Actualizar Película</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                                <form>
+                                    <div className="form-group">
+                                        <label>Titulo</label>
+                                        <input type="text" className="form-control" name="titulo" value={selectedUser.titulo}  onChange={handleChange}/>
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Sinopsis</label>
+                                        <input type="text" className="form-control" name="sinopsis" value={selectedUser.sinopsis} onChange={handleChange} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Precio</label>
+                                        <input type="text" className="form-control" name="precio" value={selectedUser.precio} onChange={handleChange} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Director</label>
+                                        <input type="text" className="form-control" name="director" value={selectedUser.director} onChange={handleChange} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Año Estreno</label>
+                                        <input type="text" className="form-control" name="estreno" value={selectedUser.estreno} onChange={handleChange} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Duracion</label>
+                                        <input type="text" className="form-control" name="duracion" value={selectedUser.duracion} onChange={handleChange} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Género</label>
+                                        <input type="text" className="form-control" name="genero" value={selectedUser.genero} onChange={handleChange} />
+                                    </div>
+                                    <div className="form-group">
+                                        <label>Imagen</label>
+                                        <input type="text" className="form-control" name="imagen" value={selectedUser.imagen} onChange={handleChange} />
+                                    </div>
+                                </form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button variant="secondary" onClick={handleClose}>
+                                    Cerrar
+                                </Button>
+                                <Button variant="primary" onClick={() => updateUser(selectedUser.titulo)}>
+                                    Actualizar
+                                </Button>
+                            </Modal.Footer>
+                        </Modal>
+                    )}
+                </div>
+            </div>
+        </Fragment>
+    );
+    /* const [titulo, setTitulo] = useState('');
     const [sinopsis, setSinopsis] = useState('');
     const [precio, setPrecio] = useState('');
     const [director, setDirector] = useState('');
@@ -158,7 +317,7 @@ function EditarPeliculasAdmin() {
                 </div>
             </div>
         </div>
-    );
+    ); */
 }
 
 export default EditarPeliculasAdmin;

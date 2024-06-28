@@ -46,7 +46,7 @@ function Checkin() {
                 // Mostramos el nombre y apellido del usuario
                 Swal.fire({
                     title: 'Sing Up',
-                    text: 'Registro de usuario exitoso',
+                    text: 'Usuario '+ data.nombre + ` ` + data.apellido + ` ha sido registrado`,
                     icon: 'success',
                     confirmButtonText: 'Ok'
                 });

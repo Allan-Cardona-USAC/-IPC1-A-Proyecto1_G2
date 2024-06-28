@@ -45,11 +45,11 @@ function Login() {
                     const dataUser = res.user;
                     // Mostramos el nombre y apellido del usuario
                     Swal.fire({
-                         title: 'Login',
-                         text: 'Welcome ${dataUser.nombre} ${dataUser.apellido}',
-                         icon: 'success',
-                         confirmButtonText: 'Ok'
-                     })
+                        title: 'Login',
+                        text: `welcome `+ dataUser.nombre + ` ` + dataUser.apellido + ` ha iniciado sesión`,
+                        icon: 'success',
+                        confirmButtonText: 'Ok'
+                    })
                     // Guardamos en las cookies lo que mandó el backend
                     setCookie('usuario', dataUser);
                     console.log(dataUser.correo)
@@ -64,11 +64,11 @@ function Login() {
                 } else {
                     // Si las credenciales están mal se muestra el siguiente mensaje.
                     Swal.fire({
-                         title: 'Error',
-                         text: 'Correo y/o contraseña incorrecta',
-                         icon: 'error',
-                         confirmButtonText: 'Ok'
-                     })
+                        title: 'Error',
+                        text: 'Credenciales incorrecta',
+                        icon: 'error',
+                        confirmButtonText: 'Ok'
+                    })
                 }
                 // Se limpian los estados
                 setCorreo("")
@@ -76,17 +76,17 @@ function Login() {
             })
             .catch((error) => console.error(error));
     };
-
-    return (
+    
+     return (
         <div className="login-background">
             <div className="container-fluid h-100">
                 <div className="row align-items-center h-100">
                     <div className="col-md-6 mx-auto">
                         <div className="card">
                             <div className="card-body">
-                                <h2 className="card-title text-center mb-4">Inicio de Sesión</h2>
+                                <h2 className="card-title text-center mb-4">Login</h2>
                                 <form onSubmit={handleSubmit} className='form-signin w-100 m-auto'>
-                                    <div className="form-floating" style={{ width: "100%" }}>
+                                    <div className="form-floating" style={{ width: "100%" , paddingBlockEnd:"25px"}}>
                                         <input
                                             type="correoInput"
                                             className="form-control"
@@ -109,8 +109,8 @@ function Login() {
                                         <label htmlFor="floatingContraseña">Contraseña</label>
                                     </div>
                                     <div className="text-center">
-                                        <button onClick={() => navigate("/checkin")} className="btn btn-outline-danger">Registrarse</button>
-                                        <button type="submit" className="btn btn-outline-primary btn-lg">Iniciar Sesión</button>
+                                        <button onClick={() => navigate("/checkin")} className="btn btn-outline-danger btn-lg">Registrarse</button>
+                                        <button type="submit" class="btn btn-outline-success btn-lg">Iniciar Sesión</button>
                                     </div>
                                 </form>
                             </div>
@@ -119,7 +119,7 @@ function Login() {
                 </div>
             </div>
         </div>
-    );
+    ); 
 }
 
 export default Login;

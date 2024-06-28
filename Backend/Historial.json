@@ -1,1 +1,9 @@
-[{"correo":"allancardona2000@gmail.com","titulo":"MonjaII","fecha_alquiler":"2024-06-26T17:51:34.154Z","fecha_devolucion_esperada":"2024-06-28T17:51:34.154Z","devuelto":false}]
+[
+    {
+        "correo": "allancardona2000@gmail.com",
+        "titulo": "MonjaII",
+        "fecha_alquiler": "2024-06-26T17:51:34.154Z",
+        "fecha_devolucion_esperada": "2024-06-28T17:51:34.154Z",
+        "devuelto": false
+    }
+]
